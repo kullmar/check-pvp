@@ -1,6 +1,5 @@
 import axios, { AxiosResponse, AxiosPromise, AxiosInstance } from 'axios';
-
-export type Region = 'eu' | 'us';
+import { Region } from '../models/pvp-stats';
 
 export interface BlizzardApiConfig {
     id: string;
@@ -26,10 +25,11 @@ export default class BlizzardApi {
     private config: BlizzardApiConfig = defaultConfig;
     private _token: string = '';
 
-    constructor(config: BlizzardApiConfig) {
+    constructor(config: Partial<BlizzardApiConfig>) {
         this.config = {...this.config, ...config};
         this.axios = axios.create({
-            baseURL: `https://${this.config.region}.api.blizzard.com`
+            baseURL: `https://${this.config.region}.api.blizzard.com`,
+            timeout: 10000
         });
         this.authenticate().then((response: AxiosResponse<TokenResponse>) => {
             this.token = response.data.access_token;
@@ -48,6 +48,18 @@ export default class BlizzardApi {
 
     public getCharacter(name: string, realm: string): AxiosPromise {
         return this.axios.get(`/wow/character/${realm}/${name}`);
+    }
+
+    public getPvpSummary(name: string, realm: string): AxiosPromise {
+        return this.axios.get(`/wow/character/${realm}/${name}?fields=pvp`);
+    }
+
+    public getStatistics(name: string, realm: string): AxiosPromise {
+        return this.axios.get(`/wow/character/${realm}/${name}?fields=statistics`);
+    }
+
+    public getAvatar(path: string) : AxiosPromise {
+        return this.axios.get(`https://render-${this.config.region}.worldofwarcraft.com/character/${path}`);
     }
 
     private authenticate(): AxiosPromise<TokenResponse> {

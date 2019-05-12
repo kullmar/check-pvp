@@ -27,7 +27,8 @@ var BlizzardApi = /** @class */ (function () {
         this._token = '';
         this.config = __assign({}, this.config, config);
         this.axios = axios_1.default.create({
-            baseURL: "https://" + this.config.region + ".api.blizzard.com"
+            baseURL: "https://" + this.config.region + ".api.blizzard.com",
+            timeout: 10000
         });
         this.authenticate().then(function (response) {
             _this.token = response.data.access_token;
@@ -47,6 +48,15 @@ var BlizzardApi = /** @class */ (function () {
     });
     BlizzardApi.prototype.getCharacter = function (name, realm) {
         return this.axios.get("/wow/character/" + realm + "/" + name);
+    };
+    BlizzardApi.prototype.getPvpSummary = function (name, realm) {
+        return this.axios.get("/wow/character/" + realm + "/" + name + "?fields=pvp");
+    };
+    BlizzardApi.prototype.getStatistics = function (name, realm) {
+        return this.axios.get("/wow/character/" + realm + "/" + name + "?fields=statistics");
+    };
+    BlizzardApi.prototype.getAvatar = function (path) {
+        return this.axios.get("https://render-" + this.config.region + ".worldofwarcraft.com/character/" + path);
     };
     BlizzardApi.prototype.authenticate = function () {
         return this.axios.get("https://" + this.config.region + ".battle.net/oauth/token", {
