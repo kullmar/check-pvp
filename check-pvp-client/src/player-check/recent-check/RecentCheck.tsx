@@ -3,9 +3,6 @@ import styled from "styled-components";
 import { Flex } from "../../styled-components";
 
 const Header = styled.h2``;
-const RightAligned = styled.div`
-  margin-left: auto;
-`;
 
 const Table = styled.table`
   width: 100%;
@@ -23,8 +20,8 @@ const mockData: any = [
 ]
 
 const RecentCheck: SFC<{}> = props => {
-  const rows = mockData.map((player: any) => (
-    <PlayerRow>
+  const rows = mockData.map((player: any, index: number) => (
+    <PlayerRow key={index}>
       <td>{player.name}</td>
       <td>{player.date}</td>
       <td>{player.maxRating}</td>

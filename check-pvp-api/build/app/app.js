@@ -20,7 +20,7 @@ app.get("/character/:id", function (req, res) {
         return;
     }
     var name = nameRealm.name, realm = nameRealm.realm;
-    api.getCharacter(name, realm).then(function (response) {
+    api.getCharacterFull(name, realm).then(function (response) {
         res.send(response.data);
     });
 });
@@ -31,9 +31,11 @@ app.get("/character/:charId/pvp-summary", function (req, res, next) {
         return;
     }
     var name = nameRealm.name, realm = nameRealm.realm;
-    api.getPvpSummary(name, realm).then(function (response) {
+    api.getPvpSummary(name, realm)
+        .then(function (response) {
         res.send(response.data);
-    }).catch(next);
+    })
+        .catch(next);
 });
 app.get("/character/:charId/statistics", function (req, res, next) {
     var nameRealm = getNameAndRealm(req.params.charId);
@@ -42,12 +44,14 @@ app.get("/character/:charId/statistics", function (req, res, next) {
         return;
     }
     var name = nameRealm.name, realm = nameRealm.realm;
-    api.getStatistics(name, realm).then(function (response) {
+    api.getStatistics(name, realm)
+        .then(function (response) {
         res.send(response.data);
-    }).catch(next);
+    })
+        .catch(next);
 });
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
+app.listen(8080, function () {
+    console.log('Example app listening on port 8080!');
 });
 // ================= Utilities =================
 function getNameAndRealm(raw) {
@@ -59,6 +63,6 @@ function getNameAndRealm(raw) {
     var realm = split[1];
     return {
         name: name,
-        realm: realm
+        realm: realm,
     };
 }

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosPromise, AxiosInstance } from 'axios';
-import { Region } from '../models/pvp-stats';
+import { Region } from '../../../check-pvp-common/models/pvp-stats';
 
 export interface BlizzardApiConfig {
     id: string;
@@ -50,6 +50,10 @@ export default class BlizzardApi {
         return this.axios.get(`/wow/character/${realm}/${name}`);
     }
 
+    public getCharacterFull(name: string, realm: string): AxiosPromise {
+        return this.axios.get(`/wow/character/${realm}/${name}?fields=pvp,statistics,achievements,guild`)
+    }
+
     public getPvpSummary(name: string, realm: string): AxiosPromise {
         return this.axios.get(`/wow/character/${realm}/${name}?fields=pvp`);
     }
@@ -60,6 +64,11 @@ export default class BlizzardApi {
 
     public getAvatar(path: string) : AxiosPromise {
         return this.axios.get(`https://render-${this.config.region}.worldofwarcraft.com/character/${path}`);
+    }
+
+    public getPortraitImage(path: string): AxiosPromise {
+        const correctedPath = path.replace('avatar', 'main');
+        return this.axios.get(`https://render-${this.config.region}.worldofwarcraft.com/character/${correctedPath}`);
     }
 
     private authenticate(): AxiosPromise<TokenResponse> {

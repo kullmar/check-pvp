@@ -49,6 +49,9 @@ var BlizzardApi = /** @class */ (function () {
     BlizzardApi.prototype.getCharacter = function (name, realm) {
         return this.axios.get("/wow/character/" + realm + "/" + name);
     };
+    BlizzardApi.prototype.getCharacterFull = function (name, realm) {
+        return this.axios.get("/wow/character/" + realm + "/" + name + "?fields=pvp,statistics,achievements,guild");
+    };
     BlizzardApi.prototype.getPvpSummary = function (name, realm) {
         return this.axios.get("/wow/character/" + realm + "/" + name + "?fields=pvp");
     };
@@ -57,6 +60,10 @@ var BlizzardApi = /** @class */ (function () {
     };
     BlizzardApi.prototype.getAvatar = function (path) {
         return this.axios.get("https://render-" + this.config.region + ".worldofwarcraft.com/character/" + path);
+    };
+    BlizzardApi.prototype.getPortraitImage = function (path) {
+        var correctedPath = path.replace('avatar', 'main');
+        return this.axios.get("https://render-" + this.config.region + ".worldofwarcraft.com/character/" + correctedPath);
     };
     BlizzardApi.prototype.authenticate = function () {
         return this.axios.get("https://" + this.config.region + ".battle.net/oauth/token", {

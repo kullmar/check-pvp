@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import NavBar from './navbar/NavBar';
-import Home from './home/Home';
+import PlayerCheck from './player-check/PlayerCheck';
 
 const Container = styled.div`
   background-color: #151515;
@@ -16,7 +16,7 @@ const App: React.FC = () => {
   return (
     <Container>
       <NavBar />
-      <Home></Home>
+      <PlayerCheck />
     </Container>
   );
 }
