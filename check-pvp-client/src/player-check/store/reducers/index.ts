@@ -1,5 +1,5 @@
 import { createReducer } from "redux-starter-kit";
-import { Character } from '../../../../../check-pvp-common/models/pvp-stats';
+import { Character } from '../../../../../check-pvp-common/models';
 import * as fromActions from '../actions';
 
 export const name = 'playerCheck';

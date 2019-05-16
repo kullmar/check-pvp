@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import NavBar from './navbar/NavBar';
 import PlayerCheck from './player-check/PlayerCheck';
+import { BrowserRouter, Route, RouteComponentProps } from "react-router-dom";
+import { connect } from 'react-redux';
 
 const Container = styled.div`
   background-color: #151515;
@@ -12,13 +14,23 @@ const Container = styled.div`
   min-height: 100vh;
 `
 
-const App: React.FC = () => {
+interface AppProps {
+  characterId?: string;
+}
+
+const App = () => {
   return (
-    <Container>
-      <NavBar />
-      <PlayerCheck />
-    </Container>
+    <BrowserRouter>
+        <Container>
+          <NavBar />
+          <Route path="/:characterId?" component={PlayerCheck} />
+        </Container>
+    </BrowserRouter>
+
   );
 }
 
-export default App;
+export default connect(
+  null,
+  null
+)(App);
