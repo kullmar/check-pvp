@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosPromise, AxiosInstance } from 'axios';
-import { Region } from '../../../check-pvp-common/models/pvp-stats';
+import { Region } from '../../../check-pvp-common/models';
 
 export interface BlizzardApiConfig {
     id: string;

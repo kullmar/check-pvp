@@ -2,6 +2,7 @@
   "name": "check-pvp",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@types/jest": "24.0.12",
     "@types/node": "12.0.0",
@@ -19,7 +20,7 @@
     "redux-saga": "^1.0.2",
     "redux-starter-kit": "^0.5.1",
     "styled-components": "^4.2.0",
-    "typescript": "3.4.5"
+    "typescript": "^3.5.0-dev.20190516"
   },
   "scripts": {
     "start": "react-scripts start",

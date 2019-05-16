@@ -1,9 +1,6 @@
 import { createAction } from 'redux-starter-kit';
+import { Character } from '../../../../../check-pvp-common/models';
 
-// export enum ActionTypes {
-//     Search = '[Player Check] Search'
-// };
-
-export const search = createAction('[Player Check] Search');
-export const searchFail = createAction('[Player Check] Search Fail');
-export const searchSuccess = createAction('[Player Check] Search Success');
+export const search = createAction<string>('[Player Check] Search');
+export const searchFail = createAction<any>('[Player Check] Search Fail');
+export const searchSuccess = createAction<Character>('[Player Check] Search Success');

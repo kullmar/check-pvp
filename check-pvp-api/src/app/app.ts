@@ -1,4 +1,4 @@
-import express = require('express');
+import express from 'express'
 import BlizzardApi from '../blizzard-api/BlizzardApi';
 
 require('dotenv').config();
@@ -13,8 +13,9 @@ if (!BNET_ID || !BNET_SECRET) {
 const api = new BlizzardApi({ id: BNET_ID, secret: BNET_SECRET });
 
 const app: express.Application = express();
+const router = express.Router();
 
-app.get(`/character/:id`, (req, res) => {
+router.get(`/character/:id`, (req, res) => {    
     const nameRealm = getNameAndRealm(req.params.id);
     if (!nameRealm) {
         res.status(400).send();
@@ -27,7 +28,7 @@ app.get(`/character/:id`, (req, res) => {
     });
 });
 
-app.get(`/character/:charId/pvp-summary`, (req, res, next) => {
+router.get(`/character/:charId/pvp-summary`, (req, res, next) => {
     const nameRealm = getNameAndRealm(req.params.charId);
     if (!nameRealm) {
         res.status(400).send();
@@ -42,7 +43,7 @@ app.get(`/character/:charId/pvp-summary`, (req, res, next) => {
         .catch(next);
 });
 
-app.get(`/character/:charId/statistics`, (req, res, next) => {
+router.get(`/character/:charId/statistics`, (req, res, next) => {
     const nameRealm = getNameAndRealm(req.params.charId);
     if (!nameRealm) {
         res.status(400).send();
@@ -56,6 +57,8 @@ app.get(`/character/:charId/statistics`, (req, res, next) => {
         })
         .catch(next);
 });
+
+app.use('/api', router);
 
 app.listen(8080, function() {
     console.log('Example app listening on port 8080!');

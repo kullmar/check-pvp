@@ -6,23 +6,30 @@ import RecentCheck from "./recent-check/RecentCheck";
 import PlayerSummary from "./player-summary/PlayerSummary";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
+import * as fromFeature from "./store";
+import { getAllEntities } from "./store";
 
 const Col = styled.div`
   width: 49%;
 `;
 
-interface PlayerCheckProps {
+interface PlayerCheckRouteProps {
   characterId?: string;
 }
 
-const PlayerCheck = ({ match }: RouteComponentProps<PlayerCheckProps>) => {
-  const characterId = match.params.characterId;
+const PlayerCheck = (props: any) => {
+  const characterId = props.match.params.characterId;
+  const characters = getAllEntities(props.state);
+  console.log(!characters);
+  if (characterId && !characters) {
+    props[fromFeature.search.type](characterId);
+  }
 
   return (
     <Flex justifyBetween margin="30px 10%">
       <Col>
         <PlayerSearch />
-        <PlayerSummary character={undefined} />
+        <PlayerSummary character={characterId && characters && characters[characterId]} />
       </Col>
       <Col>
         <RecentCheck />
@@ -31,7 +38,17 @@ const PlayerCheck = ({ match }: RouteComponentProps<PlayerCheckProps>) => {
   );
 };
 
+const mapStateToProps = (state: any) => {
+  return {
+    state
+  };
+};
+
+const mapDispatchToProps = {
+  [fromFeature.search.type]: fromFeature.search
+};
+
 export default connect(
-  null,
-  null
+  mapStateToProps,
+  mapDispatchToProps
 )(PlayerCheck);

@@ -1409,7 +1409,7 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
 
-"@types/styled-components@^4.1.5":
+"@types/styled-components@^4.1.14":
   version "4.1.15"
   resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-4.1.15.tgz#532b6738ec633b2911e0470522c23e3c658952f2"
   integrity sha512-DMr4Kq3i5Em2K1ThlqZlC8nrsiO3VaiQS2M+7cOPnseHLtfDUrDjHx6Jv11V6uVIoK8ERYhmfn42RvSIg47rnA==
@@ -9707,10 +9707,10 @@ typescript-tuple@^2.1.0:
   dependencies:
     typescript-compare "^0.0.2"
 
-typescript@3.4.5:
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.4.5.tgz#2d2618d10bb566572b8d7aad5180d84257d70a99"
-  integrity sha512-YycBxUb49UUhdNMU5aJ7z5Ej2XGmaIBL0x34vZ82fn3hGvD+bgrMrVDpatgz2f7YxUMJxMkbWxJZeAvDxVe7Vw==
+typescript@^3.5.0-dev.20190516:
+  version "3.5.0-dev.20190516"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.0-dev.20190516.tgz#7a7afb58b9508484228eee2de6823cb40e8a1147"
+  integrity sha512-J+1tISjR4yCmZ3F2wWZDEMoocF4wdXsHf68ln6cb0gjm8VmSDUYSPOVbCJUJoLqjWaCEPs05O7eNrbTulo/4ew==
 
 ua-parser-js@^0.7.18:
   version "0.7.19"

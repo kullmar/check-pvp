@@ -1,4 +1,4 @@
-import { createReducer } from "redux-starter-kit";
+import { createReducer, createSelector } from "redux-starter-kit";
 import { Character } from '../../../../../check-pvp-common/models';
 import * as fromActions from '../actions';
 
@@ -13,7 +13,7 @@ export interface State {
 }
 
 export const initialState: State = {
-    entities:  {},
+    entities: {},
     loaded: false,
     loading: false
 };
@@ -25,5 +25,22 @@ export const reducer = createReducer(initialState, {
             loaded: false,
             loading: false
         }
+    },
+    [fromActions.searchSuccess.type]: (state, action) => {
+        return {
+            entities: { ...state.entities, ...action.payload },
+            loaded: true,
+            loading: false
+        }
     }
 });
+
+export const getAllEntities = createSelector(
+    ['playerCheck.entities'],
+    entities => Object.entries(entities).length !== 0 && entities.constructor !== Object && entities
+);
+
+export const getAllCharacters = createSelector(
+    ['playerCheck.entities'],
+    entities => Object.values(entities)
+);

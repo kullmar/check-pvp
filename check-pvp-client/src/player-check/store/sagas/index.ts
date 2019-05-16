@@ -1,13 +1,19 @@
-import { yield, call } from 'redux-saga';
-import Api from '../../../app/api';
-import * as fromActions from '../actions';
-import { Character } from '../../../../../check-pvp-common/models';
+import { call, put, takeLatest } from "redux-saga/effects";
+import Api from "../../../app/api";
+import * as fromActions from "../actions";
+import { PayloadAction } from "redux-starter-kit";
 
-function* fetchCharacter(action: fromActions.search) {
-    try {
-        const character = yield call<Character>(Api.getCharacter(action.payload));
-        
-    } catch (err) {
-        
-    }
+function* fetchCharacter(action: PayloadAction<string>) {
+  try {
+    const character = yield call(Api.getCharacter, action.payload);
+    console.log(character);
+    yield put(fromActions.searchSuccess(character));
+  } catch (err) {
+      console.log(err)
+    yield put(fromActions.searchFail(err));
+  }
+}
+
+export function* saga() {
+  yield takeLatest(fromActions.search.type, fetchCharacter);
 }
