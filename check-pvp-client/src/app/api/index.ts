@@ -13,9 +13,7 @@ class Api {
     }
 
     private static get<T>(uri: string): AxiosPromise<T> {
-        return Api.http.get(uri, {
-            transformResponse: response => response.data
-        });
+        return Api.http.get(uri);
     }
 }
 

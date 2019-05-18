@@ -19,7 +19,12 @@ interface PlayerSummaryProps {
 }
 
 const PlayerSummary: React.FunctionComponent<PlayerSummaryProps> = props => {
-  return <Container />;
+  console.log(props);
+  let backgroundUrl;
+  if (props.character) {
+    backgroundUrl = props.character.avatarUri.replace('avatar', 'main');
+  }
+  return <Container backgroundUrl={backgroundUrl} />;
 };
 
 export default PlayerSummary;

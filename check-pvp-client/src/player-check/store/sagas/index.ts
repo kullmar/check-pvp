@@ -7,7 +7,7 @@ function* fetchCharacter(action: PayloadAction<string>) {
   try {
     const character = yield call(Api.getCharacter, action.payload);
     console.log(character);
-    yield put(fromActions.searchSuccess(character));
+    yield put(fromActions.searchSuccess(character.data));
   } catch (err) {
       console.log(err)
     yield put(fromActions.searchFail(err));

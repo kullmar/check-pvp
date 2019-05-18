@@ -36,8 +36,7 @@ export const reducer = createReducer(initialState, {
 });
 
 export const getAllEntities = createSelector(
-    ['playerCheck.entities'],
-    entities => Object.entries(entities).length !== 0 && entities.constructor !== Object && entities
+    ['playerCheck.entities']
 );
 
 export const getAllCharacters = createSelector(
