@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Character, Region } from '../../../../check-pvp-common/models';
-import { Flex } from '../../common/styled-components';
-import achievementsImg from '../../assets/images/achievements.gif';
+import { Character } from '../../../../check-pvp-common/models';
+import { getImageUrlPrefix } from '../../common/util';
+import PlayerSummaryHeader from './PlayerSummaryHeader';
 
 interface ContainerProps {
     backgroundUrl?: string;
@@ -20,41 +20,11 @@ const Container = styled.div<ContainerProps>`
     padding: 25px 30px;
 `;
 
-const TextContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-left: 20px;
-`;
-
-const ItemLevelText = styled.div`
-    color: #BDBDBD;
-    margin-top: auto;
-`;
-
-const AchievementPointsContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-left: auto;
-`;
-
-const CharacterNameLink = styled.a`
-    font-size: 1.1em;
-    text-decoration: none;
-`;
-
-const GuildLink = styled.a`
-    color: yellow;
-    text-decoration: none;
-`;
-
-interface PlayerSummaryProps {
+interface Props {
     character?: Character;
 }
 
-const getImageUrlPrefix = (region: Region) =>
-    `https://render-${region}.worldofwarcraft.com/character/`;
-
-const PlayerSummary: React.FunctionComponent<PlayerSummaryProps> = props => {
+const PlayerSummary: React.FunctionComponent<Props> = props => {
     if (!props.character) {
         return <Container />;
     }
@@ -66,19 +36,7 @@ const PlayerSummary: React.FunctionComponent<PlayerSummaryProps> = props => {
 
     return (
         <Container backgroundUrl={backgroundUrl}>
-            <Flex alignStretch>
-                <img src={urlPrefix + props.character.avatarUri} alt="Character avatar" />
-                <TextContainer>
-                        <CharacterNameLink href="/">{`${props.character.name}-${
-                            props.character.realm
-                        }`}</CharacterNameLink>
-                    <GuildLink href="/">{`<${props.character.guild}>`}</GuildLink>
-                    <ItemLevelText>Average item level equipped</ItemLevelText>
-                </TextContainer>
-                <AchievementPointsContainer>
-                    <div><img src={achievementsImg} alt="Blizzard achievement icon" />&nbsp;{ props.character.achievementPoints}</div>
-                </AchievementPointsContainer>
-            </Flex>
+            <PlayerSummaryHeader character={props.character} />
         </Container>
     );
 };
