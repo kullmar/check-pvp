@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Flex } from "../styled-components";
+import { Flex } from "../common/styled-components";
 import PlayerSearch from "./player-search/PlayerSearch";
 import RecentCheck from "./recent-check/RecentCheck";
 import PlayerSummary from "./player-summary/PlayerSummary";

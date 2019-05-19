@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import NavBar from './navbar/NavBar';
 import PlayerCheck from './player-check/PlayerCheck';
-import { BrowserRouter, Route, RouteComponentProps } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import { connect } from 'react-redux';
 
 const Container = styled.div`

@@ -1,6 +1,6 @@
 import React, { SFC } from "react";
 import styled from "styled-components";
-import { Flex } from "../../styled-components";
+import { Flex } from "../../common/styled-components";
 
 const Header = styled.h2``;
 

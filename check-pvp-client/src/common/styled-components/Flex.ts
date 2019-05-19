@@ -33,7 +33,7 @@ export interface FlexProps {
 };
 
 export const Flex = styled.div<FlexProps>`
-    background-color: ${props => (props.backgroundColor ? props.backgroundColor : 'inherit')};
+    background-color: ${props => (props.backgroundColor ? props.backgroundColor : 'initial')};
     height: ${props => (props.height? props.height : 'auto')};
     width: ${props => (props.width? props.width : 'auto')};
     margin: ${props => (props.margin? props.margin: '0')};
