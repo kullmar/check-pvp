@@ -1,4 +1,5 @@
 import express from 'express'
+import morgan from 'morgan';
 import BlizzardApi from '../blizzard-api/BlizzardApi';
 
 require('dotenv').config();
@@ -59,6 +60,7 @@ router.get(`/character/:charId/statistics`, (req, res, next) => {
 });
 
 app.use('/api', router);
+app.use(morgan('dev'));
 
 app.listen(8080, function() {
     console.log('Example app listening on port 8080!');
