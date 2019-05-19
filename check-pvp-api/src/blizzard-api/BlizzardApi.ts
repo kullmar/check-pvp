@@ -23,7 +23,7 @@ const defaultConfig: BlizzardApiConfig = {
 export default class BlizzardApi {
     private axios: AxiosInstance;
     private config: BlizzardApiConfig = defaultConfig;
-    private _token: string = '';
+    private _token = '';
 
     constructor(config: Partial<BlizzardApiConfig>) {
         this.config = {...this.config, ...config};

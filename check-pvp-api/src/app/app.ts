@@ -1,6 +1,8 @@
 import express from 'express'
 import morgan from 'morgan';
+import { v4 as uuid } from 'uuid';
 import BlizzardApi from '../blizzard-api/BlizzardApi';
+import { Character } from '../../../check-pvp-common/models';
 
 require('dotenv').config();
 
@@ -25,7 +27,17 @@ router.get(`/character/:id`, (req, res) => {
     const { name, realm } = nameRealm;
 
     api.getCharacterFull(name, realm).then(response => {
-        res.send(response.data);
+        const { data } = response;
+        const characterDto: Character = {
+            id: req.params.id,
+            avatarUri: data.thumbnail,
+            name: data.name,
+            realm: data.realm,
+            region: 'eu',
+            guild: data.guild.name,
+            achievementPoints: data.achievementPoints,
+        }
+        res.send(characterDto);
     });
 });
 

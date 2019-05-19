@@ -20,11 +20,11 @@ export interface PvpStats {
 
 export interface Character {
     id: string;
-    avatarUri: string;
+    avatarUri?: string;
     name: string;
     realm: string;
     region: Region;
     guild?: string;
-    achievementPoints: number;
-    pvpStats: PvpStats;
+    achievementPoints?: number;
+    pvpStats?: PvpStats;
 }

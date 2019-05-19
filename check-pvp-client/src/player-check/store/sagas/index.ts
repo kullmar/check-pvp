@@ -6,7 +6,6 @@ import { PayloadAction } from "redux-starter-kit";
 function* fetchCharacter(action: PayloadAction<string>) {
   try {
     const character = yield call(Api.getCharacter, action.payload);
-    console.log(character);
     yield put(fromActions.searchSuccess(character.data));
   } catch (err) {
       console.log(err)
