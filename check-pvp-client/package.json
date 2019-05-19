@@ -10,7 +10,7 @@
     "@types/react-dom": "16.8.4",
     "@types/react-redux": "^7.0.9",
     "@types/react-router-dom": "^4.3.3",
-    "@types/styled-components": "^4.1.14",
+    "@types/styled-components": "^4.1.15",
     "axios": "^0.18.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -20,7 +20,7 @@
     "redux-saga": "^1.0.2",
     "redux-starter-kit": "^0.5.1",
     "styled-components": "^4.2.0",
-    "typescript": "^3.5.0-dev.20190516"
+    "typescript": "^3.4.5"
   },
   "scripts": {
     "start": "react-scripts start",
