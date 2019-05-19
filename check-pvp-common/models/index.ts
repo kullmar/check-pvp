@@ -20,11 +20,18 @@ export interface PvpStats {
 
 export interface Character {
     id: string;
-    avatarUri?: string;
+    avatarUri: string;
     name: string;
     realm: string;
     region: Region;
     guild?: string;
-    achievementPoints?: number;
-    pvpStats?: PvpStats;
+    achievementPoints: number;
+    pvpStats: PvpStats;
+}
+
+export interface SearchHistory {
+    id: string;
+    faction?: string;
+    region?: Region;
+    timestamp: number;
 }

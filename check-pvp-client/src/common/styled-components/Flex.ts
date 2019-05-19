@@ -9,6 +9,7 @@ export interface FlexProps {
 
     wrapReverse?: boolean;
     noWrap?: boolean;
+    flex?: number;
 
     justifyContent?: string;
     justifyCenter?: boolean;
@@ -44,6 +45,7 @@ export const Flex = styled.div<FlexProps>`
         else if (props.noWrap) return 'nowrap'
         return 'wrap'
     }};
+    flex: ${props => (props.flex? props.flex : 'none')};
     justify-content: ${props => {
         if (props.justifyContent) return props.justifyContent
         if (props.justifyCenter) return 'center'
