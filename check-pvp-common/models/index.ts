@@ -31,6 +31,7 @@ export interface Character {
 
 export interface SearchHistory {
     id: string;
+    maxRating: number;
     faction?: string;
     region?: Region;
     timestamp: number;

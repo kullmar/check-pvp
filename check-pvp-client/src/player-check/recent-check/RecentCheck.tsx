@@ -1,6 +1,7 @@
-import React, { SFC } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Flex } from "../../common/styled-components";
+import { SearchHistory } from "../../../../check-pvp-common/models";
 
 const Header = styled.h2``;
 
@@ -19,7 +20,17 @@ const mockData: any = [
   { id: '3', name: 'Nuarikukkoxx-Finreaver', date: '20s', maxRating: '2624' },
 ]
 
-const RecentCheck: SFC<{}> = props => {
+const RecentCheck: React.FunctionComponent<{}> = props => {
+  const [recentChecks, setRecentChecks] = useState<SearchHistory[]>([]);
+
+  useEffect(() => {
+    const sseSource = new EventSource('/api/recent-check-stream');
+    sseSource.onmessage = (message) => console.log(message);
+    sseSource.onopen = (event) => console.log(event);
+
+    return () => sseSource.close();
+  }, []);
+
   const rows = mockData.map((player: any, index: number) => (
     <PlayerRow key={index}>
       <td>{player.name}</td>
@@ -31,6 +42,7 @@ const RecentCheck: SFC<{}> = props => {
   return (
     <Flex column alignCenter>
       <Header>Recent Checks</Header>
+      { recentChecks }
       <Table>
         <thead>
           <tr>

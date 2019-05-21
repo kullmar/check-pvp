@@ -2,9 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Flex } from '../../common/styled-components';
 import {
-    Character,
-    PvpStats,
-    ArenaStats,
+    PvpStats
 } from '../../../../check-pvp-common/models';
 
 const RatingText = styled.div`
