@@ -14,27 +14,30 @@ const PlayerRow = styled.tr`
   height: 50px;
 `;
 
-const mockData: any = [
-  { id: '1', name: 'Mosatramparen-Finreaver', date: '20s', maxRating: '2624' },
-  { id: '2', name: 'Tölöriddaren-Finreaver', date: '20s', maxRating: '2624' },
-  { id: '3', name: 'Nuarikukkoxx-Finreaver', date: '20s', maxRating: '2624' },
-]
-
 const RecentCheck: React.FunctionComponent<{}> = props => {
   const [recentChecks, setRecentChecks] = useState<SearchHistory[]>([]);
 
   useEffect(() => {
     const sseSource = new EventSource('/api/recent-check-stream');
-    sseSource.onmessage = (message) => console.log(message);
-    sseSource.onopen = (event) => console.log(event);
-
+    sseSource.onmessage = (message) => {
+      const data = JSON.parse(message.data);
+      if (Array.isArray(data)) {
+        setRecentChecks(data);
+      }
+      else {
+        setRecentChecks(r => [...r, data]);
+      }
+    };
+  
     return () => sseSource.close();
   }, []);
 
-  const rows = mockData.map((player: any, index: number) => (
+  console.log(recentChecks);
+
+  const rows = recentChecks.map((player: SearchHistory, index: number) => (
     <PlayerRow key={index}>
-      <td>{player.name}</td>
-      <td>{player.date}</td>
+      <td>{player.id}</td>
+      <td>{Date.now() - player.timestamp}</td>
       <td>{player.maxRating}</td>
     </PlayerRow>
   ));
@@ -42,7 +45,6 @@ const RecentCheck: React.FunctionComponent<{}> = props => {
   return (
     <Flex column alignCenter>
       <Header>Recent Checks</Header>
-      { recentChecks }
       <Table>
         <thead>
           <tr>

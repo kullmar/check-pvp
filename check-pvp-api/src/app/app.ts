@@ -2,7 +2,6 @@ import express from 'express';
 import morgan from 'morgan';
 import EventEmitter from 'events';
 import _ from 'lodash';
-import compression from 'compression';
 
 import BlizzardApi from '../blizzard-api/BlizzardApi';
 import { Character, SearchHistory } from '../../../check-pvp-common/models';
@@ -22,9 +21,15 @@ const openStreams: any[] = [];
 const sendMessageOnCheck = (check: SearchHistory) => {
     openStreams.forEach(stream => {
         stream.write(`data: ${JSON.stringify(check)}\n\n`);
-        stream.flushHeaders();
+    });
+};
+const sendPingMessage = () => {
+    openStreams.forEach(stream => {
+        console.log('Sending ping');
+        stream.write(': Ping\n\n');
     });
 }
+setInterval(sendPingMessage, 20000);
 recentCheckEmitter.on('new', sendMessageOnCheck);
 
 if (!BNET_ID || !BNET_SECRET) {
@@ -38,6 +43,15 @@ const router = express.Router();
 
 app.use('/api', router);
 app.use(morgan('dev'));
+
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
+    );
+    next();
+});
 
 router.get(`/character/:id`, (req, res) => {
     const nameRealm = getNameAndRealm(req.params.id);
@@ -80,9 +94,8 @@ router.get(`/character/:id`, (req, res) => {
             timestamp: Date.now(),
         };
         recentChecks.add(recentCheck);
-        recentCheckEmitter.emit('new', recentCheck)
+        recentCheckEmitter.emit('new', recentCheck);
         searchCount++;
-        console.log(recentChecks);
     });
 });
 
@@ -116,18 +129,16 @@ router.get(`/character/:charId/statistics`, (req, res, next) => {
         .catch(next);
 });
 
-router.get('/recent-check-stream', (req, res) => {
+router.get('/recent-check-stream', (req, res: any) => {
     // SSE Setup
     console.log('New connection!');
-    
-    res.removeHeader('Content-Encoding');
+
     res.writeHead(200, {
         'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        Connection: 'keep-alive',
+        'Cache-Control': 'no-cache, no-transform',
+        'Connection': 'keep-alive',
     });
     res.write(`data: ${JSON.stringify(recentChecks.getArray())}\n\n`);
-    res.flushHeaders();
 
     openStreams.push(res);
     console.log(`Active connections: ${openStreams.length}`);
