@@ -20,17 +20,28 @@ const recentCheckEmitter = new EventEmitter();
 const openStreams: any[] = [];
 const sendMessageOnCheck = (check: SearchHistory) => {
     openStreams.forEach(stream => {
+        stream.write('event: new\n');
         stream.write(`data: ${JSON.stringify(check)}\n\n`);
     });
 };
 const sendPingMessage = () => {
     openStreams.forEach(stream => {
-        console.log('Sending ping');
         stream.write(': Ping\n\n');
+    });
+}
+interface UpdateMessage {
+    index: number;
+    timestamp: number;
+}
+const sendUpdateMessage = (data: UpdateMessage) => {
+    openStreams.forEach(stream => {
+        stream.write('event: update\n');
+        stream.write(`data: ${JSON.stringify(data)}\n\n`);
     });
 }
 setInterval(sendPingMessage, 20000);
 recentCheckEmitter.on('new', sendMessageOnCheck);
+recentCheckEmitter.on('update', sendUpdateMessage);
 
 if (!BNET_ID || !BNET_SECRET) {
     throw new Error('Environment variables not set');
@@ -93,8 +104,14 @@ router.get(`/character/:id`, (req, res) => {
             maxRating: 2789,
             timestamp: Date.now(),
         };
+        const existingIndex = _.findIndex(recentChecks.getArray(), (r) => r.id === recentCheck.id);
         recentChecks.add(recentCheck);
-        recentCheckEmitter.emit('new', recentCheck);
+        if (existingIndex !== -1) {
+            recentCheckEmitter.emit('update', { index: existingIndex, timestamp: Date.now() });
+        }
+        else {
+            recentCheckEmitter.emit('new', recentCheck);
+        }
         searchCount++;
     });
 });
@@ -138,6 +155,7 @@ router.get('/recent-check-stream', (req, res: any) => {
         'Cache-Control': 'no-cache, no-transform',
         'Connection': 'keep-alive',
     });
+    res.write('event: initial\n');
     res.write(`data: ${JSON.stringify(recentChecks.getArray())}\n\n`);
 
     openStreams.push(res);
