@@ -4,4 +4,5 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./character.controller"));
+__export(require("./recent-check.controller"));
 //# sourceMappingURL=index.js.map

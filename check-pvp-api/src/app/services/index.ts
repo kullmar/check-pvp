@@ -1,1 +1,1 @@
-export * from './BlizzardApi';
+export * from './blizzard-api';

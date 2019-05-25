@@ -1,6 +1,9 @@
+import characterRouter from './character.router';
+import recentCheckRouter from './recent-check.router';
 import { Router } from 'express';
-import * as fromCharacter from './character.router';
 
-const router = Router();
+const router = Router()
+router.use('/character', characterRouter);
+router.use('/recent-check-stream', recentCheckRouter);
 
-router.use('/character', fromCharacter.router);
+export default router;

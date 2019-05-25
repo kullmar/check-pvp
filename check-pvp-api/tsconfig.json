@@ -10,7 +10,6 @@
       "baseUrl": "./src/app",
       "paths": {
           "check-pvp-common/*": ["../../../check-pvp-common/*"],
-          "constants/*": ["constants/*"],
           "controllers/*": ["controllers/*"],
           "models/*": ["models/*"],
           "routes/*": ["routes/*"],

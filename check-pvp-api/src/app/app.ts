@@ -1,10 +1,9 @@
 import express from 'express';
 import morgan from 'morgan';
-import EventEmitter from 'events';
 import _ from 'lodash';
+import router from 'routes';
 
-const app: express.Application = express();
-const router = express.Router();
+const app = express();
 
 app.use('/api', router);
 app.use(morgan('dev'));

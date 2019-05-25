@@ -77,5 +77,5 @@ class CharacterController {
         };
     }
 }
-exports.CharacterController = CharacterController;
+exports.default = new CharacterController();
 //# sourceMappingURL=character.controller.js.map

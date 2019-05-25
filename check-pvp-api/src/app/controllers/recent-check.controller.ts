@@ -1,4 +1,4 @@
-import RecentCheckArray from 'util/RecentCheckArray';
+import RecentCheckArray from 'util/recent-check-array';
 import { EventEmitter } from 'events';
 import { SearchHistory } from 'check-pvp-common/models';
 import _ from 'lodash';

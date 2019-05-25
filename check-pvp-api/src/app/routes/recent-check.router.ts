@@ -4,4 +4,6 @@ import { RecentCheckController } from 'controllers';
 const router = Router();
 const controller = new RecentCheckController();
 
-router.get('/recent-check-stream', controller.openStream);
+router.get('/', controller.openStream);
+
+export default router;

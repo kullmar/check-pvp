@@ -1,7 +1,9 @@
 import { Router } from 'express';
 import { CharacterController } from 'controllers';
 
-export const router = Router();
+const router = Router();
 const controller = new CharacterController();
 
-router.get(`/character/:id`, controller.getCharacterData)
+router.get(`/:id`, controller.getCharacterData);
+
+export default router;

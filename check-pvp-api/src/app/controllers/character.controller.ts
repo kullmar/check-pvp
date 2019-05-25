@@ -7,7 +7,7 @@ require('dotenv').config();
 const BNET_ID = process.env.CLIENT_ID;
 const BNET_SECRET = process.env.CLIENT_SECRET;
 
-export class CharacterController {
+class CharacterController {
     private api = new BlizzardApi({ id: BNET_ID, secret: BNET_SECRET });
 
     getCharacterData(req: any, res: any) {
@@ -83,3 +83,5 @@ export class CharacterController {
         };
     }
 }
+
+export default new CharacterController();
