@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosPromise, AxiosInstance } from 'axios';
-import { Region } from '../../../check-pvp-common/models';
+import { Region } from 'check-pvp-common/models';
 
 export interface BlizzardApiConfig {
     id: string;
@@ -20,7 +20,7 @@ const defaultConfig: BlizzardApiConfig = {
     region: 'eu'
 };
 
-export default class BlizzardApi {
+export class BlizzardApi {
     private axios: AxiosInstance;
     private config: BlizzardApiConfig = defaultConfig;
     private _token = '';

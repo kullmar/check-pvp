@@ -1,4 +1,4 @@
-import { SearchHistory } from "../../../check-pvp-common/models";
+import { SearchHistory } from "../../../../check-pvp-common/models";
 
 export default class RecentCheckArray {
     private buffer: SearchHistory[];

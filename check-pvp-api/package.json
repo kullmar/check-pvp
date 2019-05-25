@@ -21,6 +21,7 @@
   },
   "scripts": {
     "dev": "tsc-watch --onSuccess \"node ./build/check-pvp-api/src/app/app.js\"",
+    "start": "dev",
     "tsc": "tsc"
   }
 }
