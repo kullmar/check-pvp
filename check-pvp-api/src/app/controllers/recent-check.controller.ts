@@ -10,15 +10,16 @@ interface UpdateMessage {
 export class RecentCheckController {
     private readonly pingIntervalMs = 20000;
     private readonly bufferLen = 30;
-    private openStreams: any[] = [];
+    private openStreams: any[];
     private interval: NodeJS.Timeout;
 
     constructor() {
+        this.openStreams = [];
         this.attachListeners();
         this.interval = setInterval(this.sendPingMessage, this.pingIntervalMs)
     }
 
-    openStream(req: any, res: any) {
+    openStream = (req: any, res: any) => {
         // SSE Setup
         console.log('New connection!');
 
@@ -40,7 +41,7 @@ export class RecentCheckController {
         });
     }
 
-    private attachListeners() {
+    private attachListeners = () => {
         recentChecks.emitter.on('new', this.sendNewMessage);
         recentChecks.emitter.on('update', this.sendUpdateMessage);
     }

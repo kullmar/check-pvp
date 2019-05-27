@@ -1,7 +1,7 @@
 import { BlizzardApi } from 'services';
 import _ from 'lodash';
 import { SearchHistory, Character } from 'check-pvp-common/models';
-import recentChecks from 'util/recent-checks'
+import recentChecks from 'util/recent-checks';
 
 require('dotenv').config();
 
@@ -12,7 +12,7 @@ class CharacterController {
     private readonly arrayLen = 30;
     private api = new BlizzardApi({ id: BNET_ID, secret: BNET_SECRET });
 
-    getCharacterData(req: any, res: any) {
+    getCharacterData = (req: any, res: any) => {
         const nameRealm = this.getNameAndRealm(req.params.id);
         if (!nameRealm) {
             res.status(400).send();
@@ -54,11 +54,11 @@ class CharacterController {
             };
             recentChecks.add(recentCheck);
         });
-    }
+    };
 
-    private getNameAndRealm(
+    private getNameAndRealm = (
         raw: string
-    ): { name: string; realm: string } | null {
+    ): { name: string; realm: string } | null => {
         const split = raw.split('-');
         if (split.length !== 2) {
             return null;
@@ -70,7 +70,7 @@ class CharacterController {
             name,
             realm,
         };
-    }
+    };
 }
 
 export default new CharacterController();
