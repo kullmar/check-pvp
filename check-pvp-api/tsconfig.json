@@ -6,16 +6,17 @@
       "noImplicitAny": true,
       "moduleResolution": "node",
       "sourceMap": true,
-      "outDir": "dist",
+      "outDir": "./dist",
       "baseUrl": "./src/app",
       "paths": {
           "check-pvp-common/*": ["../../../check-pvp-common/*"],
-          "controllers/*": ["controllers/*"],
-          "models/*": ["models/*"],
-          "routes/*": ["routes/*"],
-          "services/*": ["services/*"],
-          "util/*": ["util/*"]
-      }
+          "controllers/*": ["./controllers/*"],
+          "models/*": ["./models/*"],
+          "routes/*": ["./routes/*"],
+          "services/*": ["./services/*"],
+          "util/*": ["./util/*"]
+      },
+      "resolveJsonModule": true
   },
   "include": [
       "src/**/*"

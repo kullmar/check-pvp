@@ -1,7 +1,7 @@
 {
   "name": "check-pvp-api",
   "version": "1.0.0",
-  "main": "build/app.js",
+  "main": "dist/check-pvp-api/src/app/app.js",
   "license": "MIT",
   "dependencies": {
     "@types/compression": "^0.0.36",
@@ -20,8 +20,11 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "dev": "tsc-watch --onSuccess \"node ./build/check-pvp-api/src/app/app.js\"",
+    "dev": "tsc-watch --onSuccess \"node -r tsconfig-paths/register ./dist/check-pvp-api/src/app/app.js\"",
     "start": "yarn dev",
     "tsc": "tsc"
+  },
+  "devDependencies": {
+    "tsconfig-paths": "^3.8.0"
   }
 }

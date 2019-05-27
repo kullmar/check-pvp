@@ -1,11 +1,11 @@
 import express from 'express';
 import morgan from 'morgan';
 import _ from 'lodash';
-import router from 'routes';
+import routes from 'routes';
 
 const app = express();
 
-app.use('/api', router);
+app.use('/api', routes);
 app.use(morgan('dev'));
 
 app.use(function(req, res, next) {

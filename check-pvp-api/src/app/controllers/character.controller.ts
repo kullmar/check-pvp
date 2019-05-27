@@ -1,6 +1,7 @@
 import { BlizzardApi } from 'services';
 import _ from 'lodash';
 import { SearchHistory, Character } from 'check-pvp-common/models';
+import recentChecks from 'util/recent-checks'
 
 require('dotenv').config();
 
@@ -8,6 +9,7 @@ const BNET_ID = process.env.CLIENT_ID;
 const BNET_SECRET = process.env.CLIENT_SECRET;
 
 class CharacterController {
+    private readonly arrayLen = 30;
     private api = new BlizzardApi({ id: BNET_ID, secret: BNET_SECRET });
 
     getCharacterData(req: any, res: any) {
@@ -50,20 +52,7 @@ class CharacterController {
                 maxRating: 2789,
                 timestamp: Date.now(),
             };
-            const existingIndex = _.findIndex(
-                recentChecks.getArray(),
-                r => r.id === recentCheck.id
-            );
             recentChecks.add(recentCheck);
-            if (existingIndex !== -1) {
-                recentCheckEmitter.emit('update', {
-                    index: existingIndex,
-                    timestamp: Date.now(),
-                });
-            } else {
-                recentCheckEmitter.emit('new', recentCheck);
-            }
-            searchCount++;
         });
     }
 

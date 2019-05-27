@@ -1,8 +1,7 @@
 import { Router } from 'express';
-import { CharacterController } from 'controllers';
+import controller from 'controllers/character.controller';
 
 const router = Router();
-const controller = new CharacterController();
 
 router.get(`/:id`, controller.getCharacterData);
 

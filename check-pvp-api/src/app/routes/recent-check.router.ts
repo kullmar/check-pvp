@@ -1,8 +1,7 @@
 import { Router } from 'express';
-import { RecentCheckController } from 'controllers';
+import controller from 'controllers/recent-check.controller';
 
 const router = Router();
-const controller = new RecentCheckController();
 
 router.get('/', controller.openStream);
 

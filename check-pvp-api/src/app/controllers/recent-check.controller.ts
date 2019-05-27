@@ -1,7 +1,6 @@
-import RecentCheckArray from 'util/recent-check-array';
-import { EventEmitter } from 'events';
 import { SearchHistory } from 'check-pvp-common/models';
 import _ from 'lodash';
+import recentChecks from 'util/recent-checks';
 
 interface UpdateMessage {
     index: number;
@@ -9,10 +8,15 @@ interface UpdateMessage {
 }
 
 export class RecentCheckController {
-    private bufferLen = 30;
-    private recentChecks = new RecentCheckArray(this.bufferLen);
-
+    private readonly pingIntervalMs = 20000;
+    private readonly bufferLen = 30;
     private openStreams: any[] = [];
+    private interval: NodeJS.Timeout;
+
+    constructor() {
+        this.attachListeners();
+        this.interval = setInterval(this.sendPingMessage, this.pingIntervalMs)
+    }
 
     openStream(req: any, res: any) {
         // SSE Setup
@@ -24,7 +28,7 @@ export class RecentCheckController {
             Connection: 'keep-alive',
         });
         res.write('event: initial\n');
-        res.write(`data: ${JSON.stringify(this.recentChecks.getArray())}\n\n`);
+        res.write(`data: ${JSON.stringify(recentChecks.getArray())}\n\n`);
 
         this.openStreams.push(res);
         console.log(`Active connections: ${this.openStreams.length}`);
@@ -36,7 +40,12 @@ export class RecentCheckController {
         });
     }
 
-    private sendMessageOnCheck = (check: SearchHistory) => {
+    private attachListeners() {
+        recentChecks.emitter.on('new', this.sendNewMessage);
+        recentChecks.emitter.on('update', this.sendUpdateMessage);
+    }
+
+    private sendNewMessage = (check: SearchHistory) => {
         this.openStreams.forEach(stream => {
             stream.write('event: new\n');
             stream.write(`data: ${JSON.stringify(check)}\n\n`);
@@ -55,3 +64,5 @@ export class RecentCheckController {
         });
     };
 }
+
+export default new RecentCheckController();
