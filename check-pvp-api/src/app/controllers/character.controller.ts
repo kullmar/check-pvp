@@ -23,12 +23,12 @@ class CharacterController {
         this.api.getCharacterFull(name, realm).then((response: any) => {
             const { data } = response;
             const characterDto: Character = {
-                id: req.params.id,
+                id: data.,
                 avatarUri: data.thumbnail,
                 name: data.name,
                 realm: data.realm,
                 region: 'eu',
-                guild: data.guild.name,
+                guild: data.guild ? data.guild.name : '',
                 achievementPoints: data.achievementPoints,
                 pvpStats: {
                     v2: {
