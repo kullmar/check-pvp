@@ -15,20 +15,23 @@ interface PlayerCheckRouteProps {
   characterId?: string;
 }
 
-const PlayerCheck = (props: any) => {
+const PlayerCheck: React.FunctionComponent<{}> = (props: any) => {
   const characterId = props.match.params.characterId;
-  const characters = fromFeature.getAllCharacterEntities(props.state);
-  const searchAction = props[fromFeature.search.type];
+  const characters = fromFeature.selectAllCharacterEntities(props.state);
+  const characterIds = fromFeature.selectAllCharacterIds(props.state);
+  const searchAction = props[fromFeature.fetchCharacter.type];
   useEffect(() => {
-    if (!!characterId) {
+    if (!!characterId && !characterIds.includes(characterId)) {
       searchAction(characterId);
     }
-  }, [searchAction, characterId]);
+  }, [searchAction, characterId, characterIds]);
+
+
 
   return (
     <Flex justifyBetween margin="30px 10%">
       <Col>
-        <PlayerSearch />
+        <PlayerSearch onSearch={id => props.history.push(`../${id}`)}/>
         <PlayerSummary character={characters && characters[characterId]} />
       </Col>
       <Col>
@@ -45,7 +48,7 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-  [fromFeature.search.type]: fromFeature.search
+  [fromFeature.fetchCharacter.type]: fromFeature.fetchCharacter
 };
 
 export default connect(

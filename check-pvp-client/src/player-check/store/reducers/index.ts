@@ -8,7 +8,6 @@ export const name = 'playerCheck';
 const character = new schema.Entity('characters');
 
 export interface State {
-    ids: string[],
     entities: {
         [id: string]: Character
     };
@@ -17,42 +16,52 @@ export interface State {
 }
 
 export const initialState: State = {
-    ids: [],
     entities: {},
     loaded: false,
     loading: false
 };
 
 export const reducer = createReducer(initialState, {
-    [fromActions.search.type]: (state, action) => {
+    [fromActions.fetchCharacter.type]: (state, action) => {
         return {
             ...state,
             loaded: false,
             loading: false
         }
     },
-    [fromActions.searchSuccess.type]: (state, action) => {
+    [fromActions.fetchCharacterSuccess.type]: (state, action) => {
+        const { entities } = normalize(action.payload, character);
+
         return {
             ...state,
-            ...normalize(action.payload, character),
+            entities: {
+                ...state.entities,
+                ...entities.characters
+            },
             loaded: true,
             loading: false
         }
     }
 });
 
-export const getAllEntities = createSelector(
+export const selectAllCharacterEntities = createSelector(
     ['playerCheck.entities']
 );
 
-export const getAllCharacterEntities = createSelector(
-    ['playerCheck.entities.characters']
+export const selectAllCharacterIds = createSelector(
+    [selectAllCharacterEntities],
+    entities => Object.keys(entities)
 );
 
-export const getCharacterLoaded = createSelector(
+export const selectAllCharacters = createSelector(
+    [selectAllCharacterEntities],
+    entities => Object.values(entities)
+);
+
+export const selectCharacterLoaded = createSelector(
     ['playerCheck.loaded']
 );
 
-export const getCharacterLoading = createSelector(
+export const selectCharacterLoading = createSelector(
     ['playerCheck.loading']
 );

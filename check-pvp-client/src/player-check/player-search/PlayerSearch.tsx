@@ -1,4 +1,4 @@
-import React, { SFC } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Flex } from '../../common/styled-components';
 
@@ -27,12 +27,23 @@ const SearchButton = styled.button`
     padding: 0 20px;
 `;
 
-const PlayerSearch: SFC<{}> = (props) => {
+interface Props {
+    onSearch: (id: string) => void;
+}
+
+const PlayerSearch: React.FunctionComponent<Props> = ({ onSearch }) => {
+    let input = React.createRef<HTMLInputElement>();
+
     return (
         <Flex alignCenter backgroundColor="#201E21" height="70px" width="100%">
             <SearchText>Search player</SearchText>
-            <Input type="text" placeholder="Mosatramparen-Finreaver"></Input>
-            <SearchButton type="submit">Search</SearchButton>
+            <Input type="text" placeholder="Mosatramparen-Finreaver" ref={input}></Input>
+            <SearchButton type="submit" onClick={() => {
+                if(input.current && !!input.current.value) {
+                    console.log('Search')
+                    onSearch(input.current.value);
+                }
+            }}>Search</SearchButton>
         </Flex>
     );
 };

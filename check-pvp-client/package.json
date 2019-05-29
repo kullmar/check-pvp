@@ -27,6 +27,7 @@
     "typescript": "^3.4.5"
   },
   "scripts": {
+    "concurrently": "concurrently --kill-others \"yarn start\" \"cd ../check-pvp-api && yarn start\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -46,5 +47,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0"
   }
 }
