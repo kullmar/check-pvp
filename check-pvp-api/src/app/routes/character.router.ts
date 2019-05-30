@@ -5,4 +5,6 @@ const router = Router();
 
 router.get(`/:id`, controller.getCharacterData);
 
+router.get('/:id/raw', controller.getCharacterRaw);
+
 export default router;

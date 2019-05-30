@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { Flex } from '../../common/styled-components';
 import { SearchHistory } from '../../../../check-pvp-common/models';
 import { useInterval } from '../../common/util';
-import { WOW_CLASS_PROPERTIES } from '../../models/wow-class';
+import { WOW_CLASS_PROPERTIES } from '../../models/wow-class-properties';
 
 const Header = styled.h2``;
 
@@ -24,7 +24,11 @@ interface PlayerNameProps {
     faction: number;
 }
 
-const PlayerName = styled.td<PlayerNameProps>`
+const DataCell = styled.td`
+    padding-left: 10px;
+`;
+
+const PlayerName = styled(DataCell)<PlayerNameProps>`
     color: ${props => WOW_CLASS_PROPERTIES[props.classId].color};
 `;
 
@@ -66,8 +70,8 @@ const RecentCheck: React.FunctionComponent<{}> = props => {
         return (
             <PlayerRow key={index}>
                 <PlayerName classId={player.class} faction={player.faction}>{player.id}</PlayerName>
-                <td>{timeDiffs[index]}</td>
-                <td>{player.maxRating}</td>
+                <DataCell>{timeDiffs[index]}</DataCell>
+                <DataCell>{player.maxRating}</DataCell>
             </PlayerRow>
         );
     });

@@ -1,6 +1,6 @@
 import { BlizzardApi } from 'services';
 import _ from 'lodash';
-import { SearchHistory, Character } from 'check-pvp-common/models';
+import { SearchHistory, Character, PvpStats } from 'check-pvp-common/models';
 import recentChecks from 'util/recent-checks';
 
 require('dotenv').config();
@@ -9,7 +9,6 @@ const BNET_ID = process.env.CLIENT_ID;
 const BNET_SECRET = process.env.CLIENT_SECRET;
 
 class CharacterController {
-    private readonly arrayLen = 30;
     private api = new BlizzardApi({ id: BNET_ID, secret: BNET_SECRET });
 
     getCharacterData = (req: any, res: any) => {
@@ -22,7 +21,6 @@ class CharacterController {
 
         this.api.getCharacterFull(name, realm).then((response: any) => {
             const { data } = response;
-            console.log(data);
             const id = `${data.name}-${data.realm}`;
             const characterDto: Character = {
                 id,
@@ -34,20 +32,7 @@ class CharacterController {
                 region: 'eu',
                 guild: data.guild ? data.guild.name : '',
                 achievementPoints: data.achievementPoints,
-                pvpStats: {
-                    v2: {
-                        currentRating: 0,
-                        maxRating: 0,
-                        wins: 0,
-                        losses: 0,
-                    },
-                    v3: {
-                        currentRating: 0,
-                        maxRating: 0,
-                        wins: 0,
-                        losses: 0,
-                    },
-                },
+                pvpStats: this.getPvpStats(data)
             };
             res.send(characterDto);
 
@@ -60,7 +45,18 @@ class CharacterController {
             };
             recentChecks.add(recentCheck);
         });
-    };
+    }
+
+    getCharacterRaw = (req: any, res: any) => {
+        const nameRealm = this.getNameAndRealm(req.params.id);
+        if (!nameRealm) {
+            res.status(400).send();
+            return;
+        }
+        const { name, realm } = nameRealm;
+
+        this.api.getCharacterFull(name, realm).then(response => res.send(response.data));
+    }
 
     private getNameAndRealm = (
         raw: string
@@ -77,6 +73,38 @@ class CharacterController {
             realm,
         };
     };
+
+    private getPvpStats(data: any): PvpStats {
+        const bracket2v2 = {
+            cr: data.pvp.brackets.ARENA_BRACKET_2v2.rating,
+            losses: data.pvp.brackets.ARENA_BRACKET_2v2.seasonLost,
+            wins: data.pvp.brackets.ARENA_BRACKET_2v2.seasonWon
+        }
+        const bracket3v3 = {
+            cr: data.pvp.brackets.ARENA_BRACKET_3v3.rating,
+            losses: data.pvp.brackets.ARENA_BRACKET_3v3.seasonLost,
+            wins: data.pvp.brackets.ARENA_BRACKET_3v3.seasonWon
+        }
+        const pvpStatistics = data.statistics.subCategories.find((category: any) => category.name === 'Player vs. Player');
+        const ratedArenas = pvpStatistics.subCategories.find((category: any) => category.name === 'Rated Arenas');
+        const max2v2 = ratedArenas.statistics.find((statistic: any) => statistic.name === 'Highest 2 man personal rating').quantity;
+        const max3v3 = ratedArenas.statistics.find((statistic: any) => statistic.name === 'Highest 3 man personal rating').quantity;
+
+        return {
+            v2: {
+                currentRating: bracket2v2.cr,
+                maxRating: max2v2,
+                losses: bracket2v2.losses,
+                wins: bracket2v2.wins
+            },
+            v3: {
+                currentRating: bracket3v3.cr,
+                maxRating: max3v3,
+                losses: bracket3v3.losses,
+                wins: bracket3v3.wins
+            }
+        };
+    }
 }
 
 export default new CharacterController();

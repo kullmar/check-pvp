@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { Character } from '../../../../check-pvp-common/models';
 import { getImageUrlPrefix } from '../../common/util';
-import PlayerSummaryHeader from './SummaryHeader';
-import PlayerRatingBox from './CurrentRating';
+import SummaryHeader from './SummaryHeader';
+import CurrentRating from './CurrentRating';
+import HighestRating from './HighestRating';
 
 interface ContainerProps {
     backgroundUrl?: string;
@@ -25,7 +26,7 @@ interface Props {
     character?: Character;
 }
 
-const PlayerSummary: React.FunctionComponent<Props> = ({ character }) => {
+export const PlayerSummary: React.FunctionComponent<Props> = ({ character }) => {
     if (!character) {
         return <Container />;
     }
@@ -37,8 +38,9 @@ const PlayerSummary: React.FunctionComponent<Props> = ({ character }) => {
 
     return (
         <Container backgroundUrl={backgroundUrl}>
-            <PlayerSummaryHeader character={character} />
-            <PlayerRatingBox stats={character.pvpStats} />
+            <SummaryHeader character={character} />
+            <CurrentRating stats={character.pvpStats} />
+            <HighestRating character={character} />
         </Container>
     );
 };

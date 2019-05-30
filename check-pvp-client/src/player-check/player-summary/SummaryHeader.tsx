@@ -4,7 +4,7 @@ import { Flex } from '../../common/styled-components';
 import { Character } from '../../../../check-pvp-common/models';
 import achievementsImg from '../../assets/images/achievements.gif';
 import { getImageUrlPrefix } from '../../common/util';
-import { WOW_CLASS_PROPERTIES } from '../../models/wow-class';
+import { WOW_CLASS_PROPERTIES } from '../../models/wow-class-properties';
 
 const TextContainer = styled.div`
     display: flex;
@@ -23,11 +23,11 @@ const AchievementPointsContainer = styled.div`
     margin-left: auto;
 `;
 
-interface CharacterNameLinkProps {
+interface ClassIdProp {
     classId: number;
 }
 
-const CharacterNameLink = styled.a<CharacterNameLinkProps>`
+const CharacterNameLink = styled.a<ClassIdProp>`
     color: ${props => WOW_CLASS_PROPERTIES[props.classId].color};
     font-size: 1.1em;
     text-decoration: none;
@@ -38,17 +38,21 @@ const GuildLink = styled.a`
     text-decoration: none;
 `;
 
+const Portrait = styled.img<ClassIdProp>`
+    border: 3px solid ${props => WOW_CLASS_PROPERTIES[props.classId].color};
+`;
+
 interface Props {
     character: Character;
 }
 
-const PlayerSummaryHeader: React.FunctionComponent<Props> = props => {
+export const SummaryHeader: React.FunctionComponent<Props> = props => {
     const imageUrlPrefix = getImageUrlPrefix(props.character.region);
     const hasGuild = !!props.character.guild;
 
     return (
         <Flex alignStretch>
-            <img src={imageUrlPrefix + props.character.avatarUri} alt="Character avatar" />
+            <Portrait src={imageUrlPrefix + props.character.avatarUri} alt="Character avatar" classId={props.character.class} />
             <TextContainer>
                     <CharacterNameLink classId={props.character.class} href="/">{`${props.character.name}-${
                         props.character.realm
@@ -63,4 +67,4 @@ const PlayerSummaryHeader: React.FunctionComponent<Props> = props => {
     )
 }
 
-export default PlayerSummaryHeader;
+export default SummaryHeader;
