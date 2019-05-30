@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Character } from '../../../../check-pvp-common/models';
 import { getImageUrlPrefix } from '../../common/util';
-import PlayerSummaryHeader from './PlayerSummaryHeader';
-import PlayerRatingBox from './PlayerRatingBox';
+import PlayerSummaryHeader from './SummaryHeader';
+import PlayerRatingBox from './CurrentRating';
 
 interface ContainerProps {
     backgroundUrl?: string;

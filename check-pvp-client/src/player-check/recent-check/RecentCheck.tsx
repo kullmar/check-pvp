@@ -5,16 +5,27 @@ import _ from 'lodash';
 import { Flex } from '../../common/styled-components';
 import { SearchHistory } from '../../../../check-pvp-common/models';
 import { useInterval } from '../../common/util';
+import { WOW_CLASS_PROPERTIES } from '../../models/wow-class';
 
 const Header = styled.h2``;
 
 const Table = styled.table`
+    font-size: 14px;
     width: 100%;
 `;
 
 const PlayerRow = styled.tr`
     background-color: #201e21;
     height: 50px;
+`;
+
+interface PlayerNameProps {
+    classId: number;
+    faction: number;
+}
+
+const PlayerName = styled.td<PlayerNameProps>`
+    color: ${props => WOW_CLASS_PROPERTIES[props.classId].color};
 `;
 
 const RecentCheck: React.FunctionComponent<{}> = props => {
@@ -54,7 +65,7 @@ const RecentCheck: React.FunctionComponent<{}> = props => {
     const rows = recentChecks.map((player: SearchHistory, index: number) => {
         return (
             <PlayerRow key={index}>
-                <td>{player.id}</td>
+                <PlayerName classId={player.class} faction={player.faction}>{player.id}</PlayerName>
                 <td>{timeDiffs[index]}</td>
                 <td>{player.maxRating}</td>
             </PlayerRow>

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Flex } from '../../common/styled-components';
 
-const SearchText = styled.div`
+const SearchText = styled.label`
     color: white;
     margin: 0 20px;
 `;
@@ -36,11 +36,10 @@ const PlayerSearch: React.FunctionComponent<Props> = ({ onSearch }) => {
 
     return (
         <Flex alignCenter backgroundColor="#201E21" height="70px" width="100%">
-            <SearchText>Search player</SearchText>
-            <Input type="text" placeholder="Mosatramparen-Finreaver" ref={input}></Input>
+            <SearchText htmlFor="searchInput">Search player</SearchText>
+            <Input id="searchInput" type="text" placeholder="Mosatramparen-Finreaver" ref={input}></Input>
             <SearchButton type="submit" onClick={() => {
                 if(input.current && !!input.current.value) {
-                    console.log('Search')
                     onSearch(input.current.value);
                 }
             }}>Search</SearchButton>

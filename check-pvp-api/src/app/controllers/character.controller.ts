@@ -22,9 +22,13 @@ class CharacterController {
 
         this.api.getCharacterFull(name, realm).then((response: any) => {
             const { data } = response;
+            console.log(data);
+            const id = `${data.name}-${data.realm}`;
             const characterDto: Character = {
-                id: data.,
+                id,
                 avatarUri: data.thumbnail,
+                class: data.class,
+                faction: data.faction,
                 name: data.name,
                 realm: data.realm,
                 region: 'eu',
@@ -48,7 +52,9 @@ class CharacterController {
             res.send(characterDto);
 
             const recentCheck: SearchHistory = {
-                id: req.params.id,
+                id,
+                class: characterDto.class,
+                faction: characterDto.faction,
                 maxRating: 2789,
                 timestamp: Date.now(),
             };
