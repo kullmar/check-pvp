@@ -1,4 +1,4 @@
-import { SearchHistory } from '../../../../check-pvp-common/models';
+import { SearchHistory } from '../../../check-pvp-common/models';
 import { EventEmitter } from 'events';
 
 export class RecentChecks {

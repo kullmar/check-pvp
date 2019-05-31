@@ -2,6 +2,9 @@ import express from 'express';
 import morgan from 'morgan';
 import _ from 'lodash';
 import routes from 'routes';
+import { initDb } from 'util/db';
+
+initDb();
 
 const app = express();
 

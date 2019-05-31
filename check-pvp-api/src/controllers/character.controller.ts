@@ -1,12 +1,11 @@
-import { BlizzardApi } from 'services';
+import { BlizzardApi } from '../services';
 import _ from 'lodash';
 import { SearchHistory, Character, PvpStats } from 'check-pvp-common/models';
-import recentChecks from 'util/recent-checks';
+import recentChecks from '../util/recent-checks';
+import { config } from '../config';
+import { CharacterModel } from 'models';
 
-require('dotenv').config();
-
-const BNET_ID = process.env.CLIENT_ID;
-const BNET_SECRET = process.env.CLIENT_SECRET;
+const { BNET_ID, BNET_SECRET } = config;
 
 class CharacterController {
     private api = new BlizzardApi({ id: BNET_ID, secret: BNET_SECRET });
@@ -44,6 +43,9 @@ class CharacterController {
                 timestamp: Date.now(),
             };
             recentChecks.add(recentCheck);
+
+            const dbCharacter = new CharacterModel(characterDto);
+            dbCharacter.save();
         });
     }
 

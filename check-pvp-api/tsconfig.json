@@ -7,9 +7,10 @@
       "moduleResolution": "node",
       "sourceMap": true,
       "outDir": "./dist",
-      "baseUrl": "./src/app",
+      "baseUrl": "./src",
       "paths": {
-          "check-pvp-common/*": ["../../../check-pvp-common/*"],
+          "check-pvp-common/*": ["../../check-pvp-common/*"],
+          "config/*": ["./config/*"],
           "controllers/*": ["./controllers/*"],
           "models/*": ["./models/*"],
           "routes/*": ["./routes/*"],

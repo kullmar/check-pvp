@@ -1,6 +1,6 @@
 import { SearchHistory } from 'check-pvp-common/models';
 import _ from 'lodash';
-import recentChecks from 'util/recent-checks';
+import recentChecks from '../util/recent-checks';
 
 interface UpdateMessage {
     index: number;
