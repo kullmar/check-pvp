@@ -11,6 +11,11 @@ class CharacterController {
     private api = new BlizzardApi({ id: BNET_ID, secret: BNET_SECRET });
 
     getCharacterData = (req: any, res: any) => {
+        const document = CharacterModel.findOne({ id: req.params.id.toLowerCase() }, (err, character) => {
+            console.log(character);
+            res.write(JSON.stringify(character));
+        });
+
         const nameRealm = this.getNameAndRealm(req.params.id);
         if (!nameRealm) {
             res.status(400).send();
@@ -33,7 +38,8 @@ class CharacterController {
                 achievementPoints: data.achievementPoints,
                 pvpStats: this.getPvpStats(data)
             };
-            res.send(characterDto);
+            res.write(characterDto);
+            res.end();
 
             const recentCheck: SearchHistory = {
                 id,
@@ -44,7 +50,7 @@ class CharacterController {
             };
             recentChecks.add(recentCheck);
 
-            const dbCharacter = new CharacterModel(characterDto);
+            const dbCharacter = new CharacterModel({...characterDto, id: characterDto.id.toLowerCase()});
             dbCharacter.save();
         });
     }
