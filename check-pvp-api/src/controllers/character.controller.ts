@@ -11,11 +11,6 @@ class CharacterController {
     private api = new BlizzardApi({ id: BNET_ID, secret: BNET_SECRET });
 
     getCharacterData = (req: any, res: any) => {
-        const document = CharacterModel.findOne({ id: req.params.id.toLowerCase() }, (err, character) => {
-            console.log(character);
-            res.write(JSON.stringify(character));
-        });
-
         const nameRealm = this.getNameAndRealm(req.params.id);
         if (!nameRealm) {
             res.status(400).send();
@@ -45,7 +40,7 @@ class CharacterController {
                 id,
                 class: characterDto.class,
                 faction: characterDto.faction,
-                maxRating: 2789,
+                maxRating: this.getMaxRating(characterDto.pvpStats),
                 timestamp: Date.now(),
             };
             recentChecks.add(recentCheck);
@@ -112,6 +107,10 @@ class CharacterController {
                 wins: bracket3v3.wins
             }
         };
+    }
+
+    private getMaxRating(pvpStats: PvpStats) {
+        return Math.max(pvpStats.v2.maxRating, pvpStats.v3.maxRating);
     }
 }
 
