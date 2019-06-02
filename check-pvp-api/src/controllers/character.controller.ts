@@ -1,8 +1,8 @@
-import { BlizzardApi } from '../services';
+import { BlizzardApi } from 'services';
 import _ from 'lodash';
 import { SearchHistory, Character, PvpStats } from 'check-pvp-common/models';
-import recentChecks from '../util/recent-checks';
-import { config } from '../config';
+import recentChecks from 'util/recent-checks';
+import { config } from 'config';
 import { CharacterModel } from 'models';
 
 const { BNET_ID, BNET_SECRET } = config;
