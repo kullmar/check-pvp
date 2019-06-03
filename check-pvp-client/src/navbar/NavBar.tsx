@@ -15,13 +15,12 @@ const Row = styled.nav`
     width: 100vw;
 `;
 
-const UL = styled.ul`
-    list-style-type: none;
+const List = styled.ul`
     margin: 0;
     padding: 0;
 `;
 
-const LI = styled.li`
+const NavItem = styled.li`
     display: inline;
     margin: 10px;
     font-weight: bold;
@@ -31,16 +30,16 @@ const LI = styled.li`
 const NavBar:React.SFC<NavBarProps> = (props) => {
     return (
         <Row>
-            <UL>
-                <LI>Home</LI>
-                <LI>Ranking</LI>
-                <LI>Guild</LI>
-                <LI>Addon</LI>
-                <LI>Contact</LI>
-                <LI>Register</LI>
-                <LI>Sign In</LI>
-                <LI>Register</LI>
-            </UL>
+            <List>
+                <NavItem>Home</NavItem>
+                <NavItem>Ranking</NavItem>
+                <NavItem>Guild</NavItem>
+                <NavItem>Addon</NavItem>
+                <NavItem>Contact</NavItem>
+                <NavItem>Register</NavItem>
+                <NavItem>Sign In</NavItem>
+                <NavItem>Register</NavItem>
+            </List>
         </Row>
     );
 }

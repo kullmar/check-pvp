@@ -33,7 +33,8 @@ class CharacterController {
                 achievementPoints: data.achievementPoints,
                 pvpStats: this.getPvpStats(data)
             };
-            res.write(characterDto);
+            console.log(`Returning API response for character ${req.params.id}`);
+            res.write(JSON.stringify(characterDto));
             res.end();
 
             const recentCheck: SearchHistory = {
