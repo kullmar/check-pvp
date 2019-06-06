@@ -1,3 +1,4 @@
+import express from 'express';
 import { SearchHistory } from 'check-pvp-common/models';
 import _ from 'lodash';
 import recentChecks from 'util/recent-checks';
@@ -16,10 +17,10 @@ export class RecentCheckController {
     constructor() {
         this.openStreams = [];
         this.attachListeners();
-        this.interval = setInterval(this.sendPingMessage, this.pingIntervalMs)
+        this.interval = setInterval(this.sendPingMessage, this.pingIntervalMs);
     }
 
-    openStream = (req: any, res: any) => {
+    openStream = (req: express.Request, res: express.Response) => {
         // SSE Setup
         console.log('New connection!');
 
@@ -39,12 +40,12 @@ export class RecentCheckController {
             console.log('Connection closed');
             console.log(`Active connections: ${this.openStreams.length}`);
         });
-    }
+    };
 
     private attachListeners = () => {
         recentChecks.emitter.on('new', this.sendNewMessage);
         recentChecks.emitter.on('update', this.sendUpdateMessage);
-    }
+    };
 
     private sendNewMessage = (check: SearchHistory) => {
         this.openStreams.forEach(stream => {

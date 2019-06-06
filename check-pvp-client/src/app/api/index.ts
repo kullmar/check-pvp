@@ -1,5 +1,5 @@
 import axios, { AxiosPromise } from 'axios';
-import { Character } from '../../../../check-pvp-common/models';
+import { Character, Region } from '../../../../check-pvp-common/models';
 
 const baseUrl = '/api';
 
@@ -8,8 +8,8 @@ class Api {
         baseURL: baseUrl
     });
 
-    static getCharacter(characterId: string): AxiosPromise<Character> {
-        return Api.get<Character>(`/character/${characterId}`);
+    static getCharacter(name: string, realm: string, region: Region): AxiosPromise<Character> {
+        return Api.get<Character>(`/character?name=${name}&realm=${realm}&region=${region}`);
     }
 
     private static get<T>(uri: string): AxiosPromise<T> {

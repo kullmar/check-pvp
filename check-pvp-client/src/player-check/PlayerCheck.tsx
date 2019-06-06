@@ -6,7 +6,7 @@ import PlayerSearch from "./player-search/PlayerSearch";
 import RecentCheck from "./recent-check/RecentCheck";
 import PlayerSummary from "./player-summary/PlayerSummary";
 import * as fromFeature from "./store";
-import { isEqualIgnoringCase } from "../util";
+import { isEqualIgnoringCase, getNameAndRealm } from "../util";
 
 const Col = styled.div`
   width: 49%;
@@ -25,7 +25,8 @@ const PlayerCheck: React.FunctionComponent<{}> = (props: any) => {
 
   useEffect(() => {
     if (!!characterId && !properlyCapitalizedId) {
-      searchAction(characterId);
+      const { name, realm } = getNameAndRealm(characterId);
+      searchAction({ name, realm, region: 'eu' });
     }
   }, [searchAction, characterId, properlyCapitalizedId]);
 

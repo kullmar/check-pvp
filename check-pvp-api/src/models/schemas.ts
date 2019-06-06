@@ -1,33 +1,33 @@
 import mongoose from 'mongoose';
 
+const ArenaSchema = {
+    currentRating: Number,
+    maxRating: Number,
+    wins: Number,
+    losses: Number
+}
+
 export const characterSchema = new mongoose.Schema({
-    id: String,
     avatarUri: String,
     class: Number,
     faction: Number,
     name: String,
     realm: String,
-    region: String,
+    region: {
+        type: String,
+        enum: ['eu', 'us', 'cn']
+    },
     guild: String,
     achievementPoints: Number,
     pvpStats: {
-        v2: {
-            currentRating: Number,
-            maxRating: Number,
-            wins: Number,
-            losses: Number
-        },
-        v3: {
-            currentRating: Number,
-            maxRating: Number,
-            wins: Number,
-            losses: Number
-        }
+        v2: ArenaSchema,
+        v3: ArenaSchema
     }
 });
 
 characterSchema.index({
-    id: 1,
+    name: 1,
+    realm: 1,
     region: 1,
 }, { unique: true });
 
