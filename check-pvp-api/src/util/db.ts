@@ -14,10 +14,12 @@ const db = mongoose.connection;
 db.on('error', (err) => console.log('Could not connect to db', err));
 db.once('open', function() { 
     console.log('Connected to db');
-    CharacterModel.deleteMany({}).then(result => {
-        console.log('Cleared collection');
-        CharacterModel.find({}, function(err, res) {
-            console.log(res);
+    if (config.ENV === 'development') {
+        CharacterModel.deleteMany({}).then(result => {
+            console.log('Cleared collection');
+            CharacterModel.find({}, function(err, res) {
+                console.log(res);
+            })
         })
-    })
+    }
  });

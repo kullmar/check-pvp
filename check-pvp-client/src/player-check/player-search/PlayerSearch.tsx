@@ -39,12 +39,16 @@ const PlayerSearch: React.FunctionComponent<Props> = ({ onSearch }) => {
             <SearchText htmlFor="searchInput">Search player</SearchText>
             <Input id="searchInput" type="text" placeholder="Mosatramparen-Finreaver" ref={input}></Input>
             <SearchButton type="submit" onClick={() => {
-                if(input.current && !!input.current.value) {
+                if(input.current && !!input.current.value && validateInput(input.current.value)) {
                     onSearch(input.current.value);
                 }
             }}>Search</SearchButton>
         </Flex>
     );
 };
+
+function validateInput(input: string): boolean {
+    return input.split('-').length === 2;
+}
 
 export default PlayerSearch;

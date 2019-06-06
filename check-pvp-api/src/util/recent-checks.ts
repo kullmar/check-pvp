@@ -13,7 +13,12 @@ export class RecentChecks {
     }
 
     add(val: SearchHistory) {
-        const index = this.buffer.findIndex(item => item.id === val.id);
+        const index = this.buffer.findIndex(
+            item =>
+                item.name === val.name &&
+                item.realm === val.realm &&
+                item.region === val.region
+        );
         if (index !== -1) {
             this.buffer.splice(index);
         } else if (this.buffer.length === this.maxLength) {

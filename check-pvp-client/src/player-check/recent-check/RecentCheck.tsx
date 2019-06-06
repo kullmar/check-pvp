@@ -28,11 +28,16 @@ const DataCell = styled.td`
     padding-left: 10px;
 `;
 
-const PlayerName = styled(DataCell)<PlayerNameProps>`
+const PlayerName = styled.a<PlayerNameProps>`
+    cursor: pointer;
     color: ${props => WOW_CLASS_PROPERTIES[props.classId].color};
 `;
 
-const RecentCheck: React.FunctionComponent<{}> = props => {
+interface Props {
+    characterClick: (character: SearchHistory) => void;
+}
+
+const RecentCheck: React.FunctionComponent<Props> = props => {
     const [recentChecks, setRecentChecks] = useState<SearchHistory[]>([]);
     const [timeDiffs, setTimeDiffs] = useState<string[]>([]);
 
@@ -69,7 +74,9 @@ const RecentCheck: React.FunctionComponent<{}> = props => {
     const rows = recentChecks.map((player: SearchHistory, index: number) => {
         return (
             <PlayerRow key={index}>
-                <PlayerName classId={player.class} faction={player.faction}>{player.id}</PlayerName>
+                <DataCell>
+                  <PlayerName classId={player.class} faction={player.faction} onClick={() => props.characterClick(player)}>{`${player.name}-${player.realm}`}</PlayerName>
+                </DataCell>
                 <DataCell>{timeDiffs[index]}</DataCell>
                 <DataCell>{player.maxRating}</DataCell>
             </PlayerRow>

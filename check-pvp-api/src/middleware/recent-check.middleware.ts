@@ -1,6 +1,7 @@
 import express from 'express';
 import recentChecks from 'util/recent-checks';
 import { Character, SearchHistory, PvpStats } from 'check-pvp-common/models';
+import { getCharacterId } from 'check-pvp-common/util';
 
 interface Request extends express.Request {
     character: Character
@@ -8,11 +9,16 @@ interface Request extends express.Request {
 
 export function addToRecentChecks(req: Request, res: express.Response) {
     const { character } = req;
+    if (!character) {
+        return;
+    }
     const recentCheck: SearchHistory = {
-        id: character.id,
         class: character.class,
         faction: character.faction,
         maxRating: getMaxRating(character.pvpStats),
+        name: character.name,
+        realm: character.realm,
+        region: character.region,
         timestamp: Date.now(),
     };
     

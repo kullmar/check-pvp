@@ -51,6 +51,7 @@ export class BlizzardApi {
     }
 
     public getCharacterFull(name: string, realm: string): AxiosPromise {
+        console.log(name, realm);
         return this.axios.get(`/wow/character/${realm}/${name}?fields=pvp,statistics,achievements,guild`)
     }
 

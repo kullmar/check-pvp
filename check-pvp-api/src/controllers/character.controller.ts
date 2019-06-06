@@ -7,43 +7,43 @@ import { config } from 'config';
 const { BNET_ID, BNET_SECRET } = config;
 
 interface Request extends express.Request {
-    character?: Character
+    character?: Character;
 }
 
 class CharacterController {
     private api = new BlizzardApi({ id: BNET_ID, secret: BNET_SECRET });
 
-    getCharacterData = (req: Request, res: express.Response, next: express.NextFunction) => {
-        if (req.character) {
-            next();
-            return;
-        }
+    getCharacter = (
+        req: Request,
+        res: express.Response,
+        next: express.NextFunction
+    ) => {
         const { name, realm, region } = req.query;
+        this.api
+            .getCharacterFull(name, realm)
+            .then(response => {
+                const { data } = response;
+                const character: Character = {
+                    avatarUri: data.thumbnail,
+                    class: data.class,
+                    faction: data.faction,
+                    name: data.name,
+                    realm: data.realm,
+                    region: 'eu',
+                    guild: data.guild ? data.guild.name : '',
+                    achievementPoints: data.achievementPoints,
+                    pvpStats: this.getPvpStats(data),
+                };
 
-        this.api.getCharacterFull(name, realm).then((response) => {
-            const { data } = response;
-            const id = `${data.name}-${data.realm}`;
-            const character: Character = {
-                id,
-                avatarUri: data.thumbnail,
-                class: data.class,
-                faction: data.faction,
-                name: data.name,
-                realm: data.realm,
-                region: 'eu',
-                guild: data.guild ? data.guild.name : '',
-                achievementPoints: data.achievementPoints,
-                pvpStats: this.getPvpStats(data),
-            };
+                console.log(
+                    `Returning live data for character ${character.name}`
+                );
+                res.send(character);
+                req.character = character;
 
-            console.log(
-                `Returning API response for character ${req.params.id}`
-            );
-            res.send(character);
-            req.character = character;
-
-            next();
-        });
+                next();
+            })
+            .catch(err => res.status(404).send(err));
     };
 
     getCharacterRaw = (req: express.Request, res: express.Response) => {

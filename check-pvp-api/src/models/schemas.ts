@@ -31,4 +31,8 @@ characterSchema.index({
     region: 1,
 }, { unique: true });
 
+characterSchema.virtual('characterId').get(function () {
+    return `${this.name}-${this.realm}-${this.region}`;
+});
+
 export const CharacterModel = mongoose.model('Character', characterSchema);

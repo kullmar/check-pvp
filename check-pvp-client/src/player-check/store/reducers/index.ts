@@ -1,15 +1,19 @@
-import { createReducer, createSelector } from "redux-starter-kit";
+import { createReducer, createSelector } from 'redux-starter-kit';
 import { normalize, schema } from 'normalizr';
 import { Character } from '../../../../../check-pvp-common/models';
+import { getCharacterId } from '../../../../../check-pvp-common/util';
 import * as fromActions from '../actions';
 
 export const name = 'playerCheck';
 
-const character = new schema.Entity('characters');
+const character = new schema.Entity('characters', undefined, {
+    idAttribute: (character: Character) =>
+        `${character.name}-${character.realm}-${character.region}`
+});
 
 export interface State {
     entities: {
-        [id: string]: Character
+        [id: string]: Character;
     };
     loaded: boolean;
     loading: boolean;
@@ -18,7 +22,7 @@ export interface State {
 export const initialState: State = {
     entities: {},
     loaded: false,
-    loading: false
+    loading: false,
 };
 
 export const reducer = createReducer(initialState, {
@@ -26,8 +30,8 @@ export const reducer = createReducer(initialState, {
         return {
             ...state,
             loaded: false,
-            loading: false
-        }
+            loading: false,
+        };
     },
     [fromActions.fetchCharacterSuccess.type]: (state, action) => {
         const { entities } = normalize(action.payload, character);
@@ -36,17 +40,17 @@ export const reducer = createReducer(initialState, {
             ...state,
             entities: {
                 ...state.entities,
-                ...entities.characters
+                ...entities.characters,
             },
             loaded: true,
-            loading: false
-        }
-    }
+            loading: false,
+        };
+    },
 });
 
-export const selectAllCharacterEntities = createSelector(
-    ['playerCheck.entities']
-);
+export const selectAllCharacterEntities = createSelector([
+    'playerCheck.entities',
+]);
 
 export const selectAllCharacterIds = createSelector(
     [selectAllCharacterEntities],
@@ -58,10 +62,6 @@ export const selectAllCharacters = createSelector(
     entities => Object.values(entities)
 );
 
-export const selectCharacterLoaded = createSelector(
-    ['playerCheck.loaded']
-);
+export const selectCharacterLoaded = createSelector(['playerCheck.loaded']);
 
-export const selectCharacterLoading = createSelector(
-    ['playerCheck.loading']
-);
+export const selectCharacterLoading = createSelector(['playerCheck.loading']);

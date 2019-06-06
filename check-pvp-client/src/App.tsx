@@ -23,7 +23,8 @@ const App = () => {
     <BrowserRouter>
         <Container>
           <NavBar />
-          <Route path="/:characterId?" component={PlayerCheck} />
+          <Route exact path="/" component={PlayerCheck} />
+          <Route path="/character" component={PlayerCheck} />
         </Container>
     </BrowserRouter>
 

@@ -19,7 +19,7 @@ export interface PvpStats {
 }
 
 export interface Character {
-    id: string;
+    id?: string;
     avatarUri: string;
     class: number;
     faction: number;
@@ -32,10 +32,11 @@ export interface Character {
 }
 
 export interface SearchHistory {
-    id: string;
     class: number;
     maxRating: number;
+    name: string;
     faction: number;
-    region?: Region;
+    realm: string;
+    region: Region;
     timestamp: number;
 }
