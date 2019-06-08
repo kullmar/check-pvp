@@ -9,15 +9,18 @@ interface UpdateMessage {
 }
 
 export class RecentCheckController {
-    private readonly pingIntervalMs = 20000;
-    private readonly bufferLen = 30;
+    private readonly REPORT_INTERVAL_MS = 10000;
+    private readonly PING_INTERVAL_MS = 20000;
+    private readonly BUFFER_LEN = 30;
     private openStreams: any[];
-    private interval: NodeJS.Timeout;
+    private pingInterval: NodeJS.Timeout;
+    private reportInterval: NodeJS.Timeout;
 
     constructor() {
         this.openStreams = [];
         this.attachListeners();
-        this.interval = setInterval(this.sendPingMessage, this.pingIntervalMs);
+        this.pingInterval = setInterval(this.sendPingMessage, this.PING_INTERVAL_MS);
+
     }
 
     openStream = (req: express.Request, res: express.Response) => {

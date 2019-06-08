@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import _ from 'lodash';
+import { Link } from 'react-router-dom';
 import { Flex } from '../../common/styled-components';
 import { SearchHistory } from '../../../../check-pvp-common/models';
 import { useInterval } from '../../common/util';
@@ -21,23 +22,18 @@ const PlayerRow = styled.tr`
 
 interface PlayerNameProps {
     classId: number;
-    faction: number;
 }
 
 const DataCell = styled.td`
     padding-left: 10px;
 `;
 
-const PlayerName = styled.a<PlayerNameProps>`
-    cursor: pointer;
+const PlayerName = styled(({ classId, ...rest }) => <Link {...rest} />)<PlayerNameProps>`
     color: ${props => WOW_CLASS_PROPERTIES[props.classId].color};
+    text-decoration: none;
 `;
 
-interface Props {
-    characterClick: (character: SearchHistory) => void;
-}
-
-const RecentCheck: React.FunctionComponent<Props> = props => {
+const RecentCheck: React.FunctionComponent<{}> = props => {
     const [recentChecks, setRecentChecks] = useState<SearchHistory[]>([]);
     const [timeDiffs, setTimeDiffs] = useState<string[]>([]);
 
@@ -57,11 +53,13 @@ const RecentCheck: React.FunctionComponent<Props> = props => {
             setRecentChecks(r => [...r, data]);
         });
         sseSource.addEventListener('update', (message: any) => {
-            const data: { index: number, timestamp: number } = JSON.parse(message.data);
+            const data: { index: number; timestamp: number } = JSON.parse(
+                message.data
+            );
             setRecentChecks(r => {
                 const copy: SearchHistory[] = [...r];
                 const pulled = _.pullAt(copy, data.index);
-                copy.unshift({...pulled[0], timestamp: data.timestamp});
+                copy.unshift({ ...pulled[0], timestamp: data.timestamp });
                 return copy;
             });
         });
@@ -75,7 +73,10 @@ const RecentCheck: React.FunctionComponent<Props> = props => {
         return (
             <PlayerRow key={index}>
                 <DataCell>
-                  <PlayerName classId={player.class} faction={player.faction} onClick={() => props.characterClick(player)}>{`${player.name}-${player.realm}`}</PlayerName>
+                    <PlayerName
+                        to={`/character?name=${player.name}&realm=${player.realm}&region=${player.region}`}
+                        classId={player.class}
+                    >{`${player.name}-${player.realm}`}</PlayerName>
                 </DataCell>
                 <DataCell>{timeDiffs[index]}</DataCell>
                 <DataCell>{player.maxRating}</DataCell>

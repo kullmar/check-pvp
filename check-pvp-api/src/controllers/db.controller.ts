@@ -23,7 +23,7 @@ export function getCachedCharacter(
             res.status(404).send();
             return;
         }
-        console.log(`Returning cache hit for character ${req.params.id}`);
+        console.log(`Returning cache hit for character ${name}-${realm}`);
 
         req.character = character.toObject();
         res.send(character);

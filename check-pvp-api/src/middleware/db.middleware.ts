@@ -26,3 +26,7 @@ export function saveCharacter(
 
     next();
 }
+
+export function updateUniqueChecks(req: Request, res: express.Response, next: express.NextFunction) {
+    
+}

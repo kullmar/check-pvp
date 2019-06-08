@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const ArenaSchema = {
+const arenaSchema = {
     currentRating: Number,
     maxRating: Number,
     wins: Number,
@@ -20,9 +20,12 @@ export const characterSchema = new mongoose.Schema({
     guild: String,
     achievementPoints: Number,
     pvpStats: {
-        v2: ArenaSchema,
-        v3: ArenaSchema
-    }
+        v2: arenaSchema,
+        v3: arenaSchema
+    },
+    checkerIds: [String]
+}, {
+    timestamps: true
 });
 
 characterSchema.index({

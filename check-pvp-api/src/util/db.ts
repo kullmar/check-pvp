@@ -17,9 +17,6 @@ db.once('open', function() {
     if (config.ENV === 'development') {
         CharacterModel.deleteMany({}).then(result => {
             console.log('Cleared collection');
-            CharacterModel.find({}, function(err, res) {
-                console.log(res);
-            })
         })
     }
  });

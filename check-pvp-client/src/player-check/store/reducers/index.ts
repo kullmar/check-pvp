@@ -1,7 +1,6 @@
 import { createReducer, createSelector } from 'redux-starter-kit';
 import { normalize, schema } from 'normalizr';
 import { Character } from '../../../../../check-pvp-common/models';
-import { getCharacterId } from '../../../../../check-pvp-common/util';
 import * as fromActions from '../actions';
 
 export const name = 'playerCheck';
