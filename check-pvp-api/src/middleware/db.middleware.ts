@@ -18,15 +18,12 @@ export function saveCharacter(
             realm: character.realm,
             region: character.region,
         },
-        character,
+        {
+            ...character,
+            $addToSet: { checkerSessionIds: req.sessionID }
+        },
         { upsert: true, runValidators: true }
-    )
-        .then(val => console.log(val))
-        .catch(err => console.error(err));
+    ).exec();
 
     next();
-}
-
-export function updateUniqueChecks(req: Request, res: express.Response, next: express.NextFunction) {
-    
 }

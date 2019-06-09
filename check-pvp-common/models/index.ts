@@ -29,6 +29,7 @@ export interface Character {
     guild?: string;
     achievementPoints: number;
     pvpStats: PvpStats;
+    uniqueChecks?: number;
 }
 
 export interface SearchHistory {

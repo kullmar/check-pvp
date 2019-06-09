@@ -14,7 +14,7 @@ const db = mongoose.connection;
 db.on('error', (err) => console.log('Could not connect to db', err));
 db.once('open', function() { 
     console.log('Connected to db');
-    if (config.ENV === 'development') {
+    if (!config.ENV || config.ENV === 'development') {
         CharacterModel.deleteMany({}).then(result => {
             console.log('Cleared collection');
         })

@@ -3,12 +3,16 @@ import morgan from 'morgan';
 import _ from 'lodash';
 import routes from 'routes';
 import { initDb } from 'util/db';
+import { configureSession } from 'middleware/cookies.middleware';
 
 initDb();
 
 const app = express();
 
 app.use(morgan('dev'));
+
+configureSession(app);
+
 app.use('/api', routes);
 
 app.use(function(req, res, next) {

@@ -23,7 +23,7 @@ export const characterSchema = new mongoose.Schema({
         v2: arenaSchema,
         v3: arenaSchema
     },
-    checkerIds: [String]
+    checkerSessionIds: [String]
 }, {
     timestamps: true
 });

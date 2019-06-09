@@ -12,10 +12,6 @@ export class RecentChecks {
     constructor(len: number) {
         this.buffer = [];
         this.MAX_LEN = len;
-        this.reportInterval = setInterval(
-            () => console.log('Recent checks:', this.buffer),
-            this.REPORT_INTERVAL_MS
-        );
     }
 
     add(val: SearchHistory) {
