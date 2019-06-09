@@ -7,7 +7,7 @@ export class RecentChecks {
     private reportInterval: NodeJS.Timeout;
     private buffer: SearchHistory[];
 
-    readonly emitter = new EventEmitter();
+    public readonly emitter = new EventEmitter();
 
     constructor(len: number) {
         this.buffer = [];
@@ -22,11 +22,13 @@ export class RecentChecks {
                 item.region === val.region
         );
         if (index !== -1) {
-            this.buffer.splice(index);
+            this.buffer.splice(index, 1);
         } else if (this.buffer.length === this.MAX_LEN) {
             this.buffer.pop();
         }
         this.buffer.unshift(val);
+
+        console.log('Recent checks: ', this.buffer);
 
         if (index !== -1) {
             this.emitter.emit('update', {

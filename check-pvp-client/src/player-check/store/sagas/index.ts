@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, all } from 'redux-saga/effects';
 import Api from '../../../app/api';
 import * as fromActions from '../actions';
 import { PayloadAction } from 'redux-starter-kit';
@@ -37,6 +37,8 @@ function* fetchDbCharacter(
 }
 
 export function* saga() {
-    yield takeLatest(fromActions.fetchCharacter.type, fetchCharacter);
-    yield takeLatest(fromActions.fetchCharacter.type, fetchDbCharacter);
+    yield all([
+        yield takeLatest(fromActions.fetchCharacter.type, fetchDbCharacter),
+        yield takeLatest(fromActions.fetchCharacter.type, fetchCharacter)
+    ]);
 }

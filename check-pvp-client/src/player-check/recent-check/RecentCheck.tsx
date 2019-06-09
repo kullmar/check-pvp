@@ -35,12 +35,6 @@ const PlayerName = styled(({ classId, ...rest }) => <Link {...rest} />)<PlayerNa
 
 const RecentCheck: React.FunctionComponent<{}> = props => {
     const [recentChecks, setRecentChecks] = useState<SearchHistory[]>([]);
-    const [timeDiffs, setTimeDiffs] = useState<string[]>([]);
-
-    useInterval(() => {
-        const diffs = recentChecks.map(sh => moment(sh.timestamp).fromNow());
-        setTimeDiffs(diffs);
-    }, 1000);
 
     useEffect(() => {
         const sseSource = new EventSource('/api/recent-check-stream');
@@ -74,11 +68,14 @@ const RecentCheck: React.FunctionComponent<{}> = props => {
             <PlayerRow key={index}>
                 <DataCell>
                     <PlayerName
-                        to={`/character?name=${player.name}&realm=${player.realm}&region=${player.region}`}
+                        to={{
+                            pathName: "/character",
+                            search: `?name=${player.name}&realm=${player.realm}&region=${player.region}`
+                        }}
                         classId={player.class}
                     >{`${player.name}-${player.realm}`}</PlayerName>
                 </DataCell>
-                <DataCell>{timeDiffs[index]}</DataCell>
+                <DataCell>{moment(player.timestamp).fromNow()}</DataCell>
                 <DataCell>{player.maxRating}</DataCell>
             </PlayerRow>
         );

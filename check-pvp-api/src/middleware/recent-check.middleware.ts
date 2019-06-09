@@ -1,7 +1,6 @@
 import express from 'express';
 import recentChecks from 'util/recent-checks';
 import { Character, SearchHistory, PvpStats } from 'check-pvp-common/models';
-import { getCharacterId } from 'check-pvp-common/util';
 
 interface Request extends express.Request {
     character: Character

@@ -29,16 +29,15 @@ export function getCachedCharacter(
                 res.status(404).send();
                 return;
             }
-            console.log(`Returning cache hit for character ${character.toObject().name}-${character.toObject().realm}`);
+            const charObj = character.toObject();
+            console.log(`Returning cache hit for character ${charObj.name}-${charObj.realm}`);
 
-            req.character = character.toObject();
-            const { checkerSessionIds, ...rest} = character.toObject();
+            req.character = charObj;
+            const { checkerSessionIds, ...rest} = charObj;
             res.send({
                 ...rest,
                 uniqueChecks: checkerSessionIds.length
             });
-
-            console.log(character);
 
             next();
         }

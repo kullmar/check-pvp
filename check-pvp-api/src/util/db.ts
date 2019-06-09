@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import { config } from 'config';
-import { CharacterModel } from 'models';
 
 export function initDb() {
     console.log('Connecting to DB');
@@ -15,8 +14,8 @@ db.on('error', (err) => console.log('Could not connect to db', err));
 db.once('open', function() { 
     console.log('Connected to db');
     if (!config.ENV || config.ENV === 'development') {
-        CharacterModel.deleteMany({}).then(result => {
-            console.log('Cleared collection');
+        mongoose.connection.db.dropDatabase().then(result => {
+            console.log('Cleared db');
         })
     }
  });

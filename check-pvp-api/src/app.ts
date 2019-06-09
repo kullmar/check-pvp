@@ -13,8 +13,6 @@ app.use(morgan('dev'));
 
 configureSession(app);
 
-app.use('/api', routes);
-
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
@@ -23,6 +21,8 @@ app.use(function(req, res, next) {
     );
     next();
 });
+
+app.use('/api', routes);
 
 app.listen(8080, function() {
     console.log('Example app listening on port 8080!');

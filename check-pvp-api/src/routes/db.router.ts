@@ -7,6 +7,5 @@ const router = Router();
 
 router.use('/character', validateCharacterQuery);
 router.get('/character', getCachedCharacter);
-router.use('/character', addToRecentChecks);
 
 export { router as dbRouter }
