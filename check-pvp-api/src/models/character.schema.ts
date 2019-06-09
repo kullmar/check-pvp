@@ -34,6 +34,10 @@ characterSchema.index({
     region: 1,
 }, { unique: true });
 
+characterSchema.index({
+    name: 'text'
+});
+
 characterSchema.virtual('characterId').get(function () {
     return `${this.name}-${this.realm}-${this.region}`;
 });

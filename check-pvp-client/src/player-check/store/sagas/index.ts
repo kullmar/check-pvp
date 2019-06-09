@@ -36,9 +36,21 @@ function* fetchDbCharacter(
     }
 }
 
+function* searchCharacter(
+    action: PayloadAction<string>
+) {
+    try {
+        const characters = yield call(Api.searchCharacter, action.payload);
+        yield put(fromActions.searchCharacterSuccess(characters));
+    } catch (err) {
+        yield put(fromActions.searchCharacterFail(err));
+    }
+}
+
 export function* saga() {
     yield all([
         yield takeLatest(fromActions.fetchCharacter.type, fetchDbCharacter),
-        yield takeLatest(fromActions.fetchCharacter.type, fetchCharacter)
+        yield takeLatest(fromActions.fetchCharacter.type, fetchCharacter),
+        yield takeLatest(fromActions.searchCharacter, searchCharacter)
     ]);
 }

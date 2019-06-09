@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Flex } from '../../common/styled-components';
 
@@ -33,6 +33,11 @@ interface Props {
 
 const PlayerSearch: React.FunctionComponent<Props> = ({ onSearch }) => {
     let input = React.createRef<HTMLInputElement>();
+    const val = input.current && input.current.value;
+
+    useEffect(() => {
+        
+    })
 
     return (
         <Flex alignCenter backgroundColor="#201E21" height="70px" width="100%">

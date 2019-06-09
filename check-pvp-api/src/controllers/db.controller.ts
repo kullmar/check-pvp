@@ -30,16 +30,30 @@ export function getCachedCharacter(
                 return;
             }
             const charObj = character.toObject();
-            console.log(`Returning cache hit for character ${charObj.name}-${charObj.realm}`);
+            console.log(
+                `Returning cache hit for character ${charObj.name}-${
+                    charObj.realm
+                }`
+            );
 
             req.character = charObj;
-            const { checkerSessionIds, ...rest} = charObj;
+            const { checkerSessionIds, ...rest } = charObj;
             res.send({
                 ...rest,
-                uniqueChecks: checkerSessionIds.length
+                uniqueChecks: checkerSessionIds.length,
             });
 
             next();
         }
     );
+}
+
+export function searchCharacter(
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+) {
+    CharacterModel.find({ $text: { $search: req.body } })
+        .limit(10)
+        .then(docs => res.send(docs));
 }
