@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import { Flex } from '../../common/styled-components';
 import { SearchHistory } from '../../../../check-pvp-common/models';
-import { useInterval } from '../../common/util';
 import { WOW_CLASS_PROPERTIES } from '../../models/wow-class-properties';
 
 const Header = styled.h2``;

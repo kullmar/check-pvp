@@ -12,7 +12,7 @@ function* rootSaga() {
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = {
-  [fromPlayerCheck.name]: fromPlayerCheck.reducer
+  player: fromPlayerCheck.reducer
 };
 
 const store = configureStore({
