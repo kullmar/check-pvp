@@ -53,7 +53,17 @@ export function searchCharacter(
     res: express.Response,
     next: express.NextFunction
 ) {
-    CharacterModel.find({ $text: { $search: req.body } })
+    CharacterModel.find({ name: { $regex: new RegExp(req.body.name, 'i')}})
         .limit(10)
-        .then(docs => res.send(docs));
+        .then(docs => {
+            res.send(docs.map(doc => {
+                const char = doc.toObject();
+
+                return {
+                    name: char.name,
+                    realm: char.realm,
+                    region: char.region
+                }
+            }));
+        });
 }

@@ -22,6 +22,8 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use(express.json());
+
 app.use('/api', routes);
 
 app.listen(8080, function() {

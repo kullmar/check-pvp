@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Flex } from '../../common/styled-components';
 
@@ -32,22 +32,40 @@ interface Props {
 }
 
 const PlayerSearch: React.FunctionComponent<Props> = ({ onSearch }) => {
-    let input = React.createRef<HTMLInputElement>();
-    const val = input.current && input.current.value;
+    const [input, setInput] = useState('');
 
     useEffect(() => {
-        
-    })
+        if (!!input) {
+            fetch('/api/character-search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: input }),
+            }).then(res => console.log(res));
+        }
+    }, [input]);
 
     return (
         <Flex alignCenter backgroundColor="#201E21" height="70px" width="100%">
             <SearchText htmlFor="searchInput">Search player</SearchText>
-            <Input id="searchInput" type="text" placeholder="Mosatramparen-Finreaver" ref={input}></Input>
-            <SearchButton type="submit" onClick={() => {
-                if(input.current && !!input.current.value && validateInput(input.current.value)) {
-                    onSearch(input.current.value);
-                }
-            }}>Search</SearchButton>
+            <Input
+                id="searchInput"
+                type="text"
+                placeholder="Mosatramparen-Finreaver"
+                value={input}
+                onChange={event => setInput(event.target.value)}
+            />
+            <SearchButton
+                type="submit"
+                onClick={() => {
+                    if (!!input && validateInput(input)) {
+                        onSearch(input);
+                    }
+                }}
+            >
+                Search
+            </SearchButton>
         </Flex>
     );
 };
