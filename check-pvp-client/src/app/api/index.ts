@@ -16,8 +16,8 @@ class Api {
         return Api.get<Character>(`/db/character?name=${name}&realm=${realm}&region=${region}`);
     }
 
-    static searchCharacter(name: string): AxiosPromise<Character[]> {
-        return Api.post<Character[]>('/character-search', name);
+    static searchCharacter(query: string): AxiosPromise<Character[]> {
+        return Api.post<Character[]>('/character-search', { query });
     }
 
     private static get<T>(uri: string): AxiosPromise<T> {

@@ -7,9 +7,10 @@ export function* searchCharacter(
     action: PayloadAction<string>
 ) {
     try {
-        const characters = yield call(Api.searchCharacter, action.payload);
-        yield put(fromActions.searchCharacterSuccess(characters));
+        const res = yield call(Api.searchCharacter, action.payload);
+        yield put(fromActions.searchCharacterSuccess({ characters: res.data, searchTerm: action.payload }));
     } catch (err) {
+        console.log(err);
         yield put(fromActions.searchCharacterFail(err));
     }
 }

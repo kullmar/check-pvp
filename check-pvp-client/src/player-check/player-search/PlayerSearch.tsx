@@ -38,10 +38,9 @@ const PlayerSearch: React.FunctionComponent<Props> = (props: any) => {
     const searchSuggestions = selectPlayerSearchSuggestions(props.state);
     const searchLoading = selectPlayerSearchLoading(props.state);
     const searchAction = props[searchCharacter.type];
-    console.log(props.state);
 
     useEffect(() => {
-        if (input && !searchSuggestions[input] && !searchLoading) {
+        if (input && !searchSuggestions[input.toLowerCase()] && !searchLoading) {
             searchAction(input);
         }
     }, [input, searchAction, searchSuggestions, searchLoading]);
