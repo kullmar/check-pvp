@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { Character } from '../../../../check-pvp-common/models';
 import { getImageUrlPrefix } from '../../common/util';
-import SummaryHeader from './SummaryHeader';
-import CurrentRating from './CurrentRating';
-import HighestRating from './HighestRating';
+import SummaryHeader from './components/SummaryHeader';
+import CurrentRating from './components/CurrentRating';
+import HighestRating from './components/HighestRating';
 
 interface ContainerProps {
     backgroundUrl?: string;

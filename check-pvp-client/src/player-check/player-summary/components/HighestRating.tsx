@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Character } from '../../../../check-pvp-common/models';
+import { Character } from '../../../../../check-pvp-common/models';
 
 const Header = styled.div`
     padding: 10px 10px;

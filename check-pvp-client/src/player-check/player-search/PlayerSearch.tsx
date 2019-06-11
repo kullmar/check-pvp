@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Flex } from '../../common/styled-components';
+import { connect } from 'react-redux';
+import { searchCharacter, selectPlayerSearchSuggestions, selectPlayerSearchLoading } from '../store';
 
 const SearchText = styled.label`
     color: white;
@@ -31,20 +33,18 @@ interface Props {
     onSearch: (id: string) => void;
 }
 
-const PlayerSearch: React.FunctionComponent<Props> = ({ onSearch }) => {
+const PlayerSearch: React.FunctionComponent<Props> = (props: any) => {
     const [input, setInput] = useState('');
+    const searchSuggestions = selectPlayerSearchSuggestions(props.state);
+    const searchLoading = selectPlayerSearchLoading(props.state);
+    const searchAction = props[searchCharacter.type];
+    console.log(props.state);
 
     useEffect(() => {
-        if (!!input) {
-            fetch('/api/character-search', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name: input }),
-            }).then(res => console.log(res));
+        if (input && !searchSuggestions[input] && !searchLoading) {
+            searchAction(input);
         }
-    }, [input]);
+    }, [input, searchAction, searchSuggestions, searchLoading]);
 
     return (
         <Flex alignCenter backgroundColor="#201E21" height="70px" width="100%">
@@ -54,13 +54,13 @@ const PlayerSearch: React.FunctionComponent<Props> = ({ onSearch }) => {
                 type="text"
                 placeholder="Mosatramparen-Finreaver"
                 value={input}
-                onChange={event => setInput(event.target.value)}
+                onChange={event => setInput(event.target.value.trim())}
             />
             <SearchButton
                 type="submit"
                 onClick={() => {
                     if (!!input && validateInput(input)) {
-                        onSearch(input);
+                        props.onSearch(input);
                     }
                 }}
             >
@@ -74,4 +74,17 @@ function validateInput(input: string): boolean {
     return input.split('-').length === 2;
 }
 
-export default PlayerSearch;
+const mapStateToProps = (state: any) => {
+    return {
+        state,
+    };
+};
+
+const mapDispatchToProps = {
+    [searchCharacter.type]: searchCharacter,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(PlayerSearch);

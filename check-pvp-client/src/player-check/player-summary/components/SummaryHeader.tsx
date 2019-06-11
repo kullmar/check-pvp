@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Flex } from '../../common/styled-components';
-import { Character } from '../../../../check-pvp-common/models';
-import achievementsImg from '../../assets/images/achievements.gif';
-import { getImageUrlPrefix } from '../../common/util';
-import { WOW_CLASS_PROPERTIES } from '../../models/wow-class-properties';
+import { Flex } from '../../../common/styled-components';
+import { Character } from '../../../../../check-pvp-common/models';
+import achievementsImg from '../../../assets/images/achievements.gif';
+import { getImageUrlPrefix } from '../../../common/util';
+import { WOW_CLASS_PROPERTIES } from '../../../models/wow-class-properties';
 
 const TextContainer = styled.div`
     display: flex;

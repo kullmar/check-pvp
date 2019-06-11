@@ -1,5 +1,16 @@
 import createSelector from "selectorator";
+import { State as SearchPlayerState } from '../reducers/player-search.reducer';
 
-export const selectSearchLoading = createSelector([
-    'player.playerSearch.loading'
+export const selectPlayerSearchState = createSelector([
+    'player.playerSearch'
+]);
+
+export const selectPlayerSearchLoading = createSelector([
+    selectPlayerSearchState,
+    (state: SearchPlayerState) => state.loading
+]);
+
+export const selectPlayerSearchSuggestions = createSelector([
+    selectPlayerSearchState,
+    (state: SearchPlayerState) => state.searchSuggestions
 ]);

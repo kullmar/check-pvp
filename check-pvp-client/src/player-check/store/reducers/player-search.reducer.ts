@@ -29,7 +29,7 @@ export const reducer = createReducer(initialState, {
     [fromActions.searchCharacterSuccess.type]: (state, action) => {
         const newSuggestions = { ...state.searchSuggestions };
         const charIds = action.payload.characters.map((char: fromActions.PlayerSearchSuggestion) => `${char.name}-${char.realm}-${char.region}`)
-        newSuggestions[action.payload.searchTerm] = charIds;
+        newSuggestions[action.payload.searchTerm.toLowerCase()] = charIds;
 
         return {
             loaded: true,

@@ -18,10 +18,6 @@ const Col = styled.div`
     }
 `;
 
-interface PlayerCheckRouteProps {
-    characterId?: string;
-}
-
 const PlayerCheck: React.FunctionComponent<{}> = (props: any) => {
     const { name, realm, region } = qs.parse(props.location.search);
     const characters = fromFeature.selectAllCharacterEntities(props.state);

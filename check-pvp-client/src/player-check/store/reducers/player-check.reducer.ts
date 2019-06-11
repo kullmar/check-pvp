@@ -29,7 +29,7 @@ export const reducer = createReducer(initialState, {
         return {
             ...state,
             loaded: false,
-            loading: false,
+            loading: true,
         };
     },
     [fromActions.fetchCharacterSuccess.type]: (state, action) => {
