@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { Flex } from '../../common/styled-components';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { searchCharacter, selectPlayerSearchSuggestions, selectPlayerSearchLoading } from '../store';
+import { Flex } from '../../common/styled-components';
+import Select from 'react-select';
+import { ValueType } from 'react-select/lib/types';
+
 
 const SearchText = styled.label`
     color: white;
     margin: 0 20px;
 `;
 
-const Input = styled.input`
-    background-color: transparent;
-    border: 1px solid #676af7;
+const Search = styled(Select)`
     color: #a6afb8;
-    font-weight: 700;
-    line-height: 15px;
     margin-left: auto;
-    min-width: 220px;
-    padding: 10px;
+    min-width: 300px;
 `;
 
 const SearchButton = styled.button`
@@ -45,15 +43,25 @@ const PlayerSearch: React.FunctionComponent<Props> = (props: any) => {
         }
     }, [input, searchAction, searchSuggestions, searchLoading]);
 
+    const handleSelect = (selectedOption: ValueType<string>) => {
+        console.log(selectedOption as string);
+        setInput(selectedOption as string);
+    }
+
     return (
         <Flex alignCenter backgroundColor="#201E21" height="70px" width="100%">
             <SearchText htmlFor="searchInput">Search player</SearchText>
-            <Input
+            <Search
                 id="searchInput"
-                type="text"
+                backspaceRemovesValue={false}
+                components={{
+                    DropdownIndicator: null
+                }}
+                onChange={handleSelect}
+                onInputChange={(val: string) => { setInput(val.trim()); }}
+                options={searchSuggestions[input]}
                 placeholder="Mosatramparen-Finreaver"
                 value={input}
-                onChange={event => setInput(event.target.value.trim())}
             />
             <SearchButton
                 type="submit"
