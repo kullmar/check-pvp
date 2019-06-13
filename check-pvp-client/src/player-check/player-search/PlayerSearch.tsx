@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { searchCharacter, selectPlayerSearchSuggestions, selectPlayerSearchLoading } from '../store';
+import { searchCharacter, selectPlayerSearchSuggestions, selectPlayerSearchLoading, selectAllCharacterEntities } from '../store';
 import { Flex } from '../../common/styled-components';
 import Select from 'react-select';
 import { ValueType } from 'react-select/lib/types';
-
+import { Character } from '../../../../check-pvp-common/models';
 
 const SearchText = styled.label`
     color: white;
@@ -33,15 +33,18 @@ interface Props {
 
 const PlayerSearch: React.FunctionComponent<Props> = (props: any) => {
     const [input, setInput] = useState('');
-    const searchSuggestions = selectPlayerSearchSuggestions(props.state);
+    const searchSuggestionIds = selectPlayerSearchSuggestions(props.state);
     const searchLoading = selectPlayerSearchLoading(props.state);
     const searchAction = props[searchCharacter.type];
+    const allCharacters = selectAllCharacterEntities(props.state);
+    const characters: Character[] = searchSuggestionIds[input] ? searchSuggestionIds[input].map(id => allCharacters[id]) : [];
+    console.log(characters);
 
     useEffect(() => {
-        if (input && !searchSuggestions[input.toLowerCase()] && !searchLoading) {
+        if (input && !searchSuggestionIds[input.toLowerCase()] && !searchLoading) {
             searchAction(input);
         }
-    }, [input, searchAction, searchSuggestions, searchLoading]);
+    }, [input, searchAction, searchSuggestionIds, searchLoading]);
 
     const handleSelect = (selectedOption: ValueType<string>) => {
         console.log(selectedOption as string);
@@ -57,9 +60,11 @@ const PlayerSearch: React.FunctionComponent<Props> = (props: any) => {
                 components={{
                     DropdownIndicator: null
                 }}
+                onSelectResetsInput={false}
+                onBlurResetsInput={false}
                 onChange={handleSelect}
                 onInputChange={(val: string) => { setInput(val.trim()); }}
-                options={searchSuggestions[input]}
+                options={characters}
                 placeholder="Mosatramparen-Finreaver"
                 value={input}
             />

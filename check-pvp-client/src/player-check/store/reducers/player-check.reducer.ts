@@ -2,10 +2,11 @@ import { createReducer } from 'redux-starter-kit';
 import { normalize, schema } from 'normalizr';
 import { Character } from '../../../../../check-pvp-common/models';
 import * as fromActions from '../actions';
+import _ from 'lodash';
 
 export const name = 'playerCheck';
 
-const character = new schema.Entity('characters', undefined, {
+const characterSchema = new schema.Entity('characters', undefined, {
     idAttribute: (character: Character) =>
         `${character.name}-${character.realm}-${character.region}`
 });
@@ -33,7 +34,7 @@ export const reducer = createReducer(initialState, {
         };
     },
     [fromActions.fetchCharacterSuccess.type]: (state, action) => {
-        const { entities } = normalize(action.payload, character);
+        const { entities } = normalize(action.payload, characterSchema);
 
         return {
             ...state,
@@ -45,6 +46,15 @@ export const reducer = createReducer(initialState, {
             loading: false,
         };
     },
+    [fromActions.searchCharacterSuccess.type]: (state, action) => {
+        const { entities } = normalize(action.payload.characters, [characterSchema]);
+        const updatedEntities = _.merge({}, state.entities, entities.characters)
+
+        return {
+            ...state,
+            entities: updatedEntities
+        };
+    }
 });
 
 
