@@ -23,9 +23,10 @@ const PlayerCheck: React.FunctionComponent<{}> = (props: any) => {
     const characters = fromFeature.selectAllCharacterEntities(props.state);
     const characterIds = fromFeature.selectAllCharacterIds(props.state);
     const searchAction = props[fromFeature.fetchCharacter.type];
-    const existingStoreCharacterId = characterIds.find(id =>
+    const existingStoreCharacterId = characterIds.find(id => 
         isEqualIgnoringCase(id, `${name}-${realm}-${region}`)
     );
+    const isCharacterLoaded = existingStoreCharacterId ? characters[existingStoreCharacterId].avatarUri : false;
 
     const handleSearch = (id: string) => {
         const { name, realm } = getNameAndRealm(id);
@@ -33,10 +34,10 @@ const PlayerCheck: React.FunctionComponent<{}> = (props: any) => {
     };
 
     useEffect(() => {
-        if (name && realm && region && !existingStoreCharacterId) {
+        if (name && realm && region && !isCharacterLoaded) {
             searchAction({ name, realm, region: 'eu' });
         }
-    }, [searchAction, existingStoreCharacterId, name, realm, region]);
+    }, [searchAction, isCharacterLoaded, name, realm, region]);
 
     return (
         <Flex justifyBetween margin="30px 10%">
@@ -44,7 +45,7 @@ const PlayerCheck: React.FunctionComponent<{}> = (props: any) => {
                 <PlayerSearch onSearch={id => handleSearch(id)} />
                 <PlayerSummary
                     character={
-                        characters && existingStoreCharacterId
+                        characters && isCharacterLoaded && existingStoreCharacterId
                             ? characters[existingStoreCharacterId]
                             : undefined
                     }

@@ -69,12 +69,12 @@ const PlayerSearch: React.FunctionComponent<Props> = (props: any) => {
                     selectedItem,
                     }) => (
                         <div>
-                                                   <input {...getInputProps()} />
-                        <ul {...getMenuProps()}>
-                            { isOpen ? 
-                                characters.map(char => <li {...getItemProps({item: char})}>char</li> ) : null
-                            }
-                        </ul>
+                            <input {...getInputProps()} />
+                            <ul {...getMenuProps()}>
+                                { isOpen ? 
+                                    characters.map(char => <li {...getItemProps({item: char})}>{char}</li> ) : null
+                                }
+                            </ul>
                         </div>
                     )}
                 

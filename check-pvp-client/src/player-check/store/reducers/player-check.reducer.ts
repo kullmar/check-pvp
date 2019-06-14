@@ -3,6 +3,7 @@ import { normalize, schema } from 'normalizr';
 import { Character } from '../../../../../check-pvp-common/models';
 import * as fromActions from '../actions';
 import _ from 'lodash';
+import { any } from 'prop-types';
 
 export const name = 'playerCheck';
 
@@ -34,14 +35,10 @@ export const reducer = createReducer(initialState, {
         };
     },
     [fromActions.fetchCharacterSuccess.type]: (state, action) => {
-        const { entities } = normalize(action.payload, characterSchema);
+        const { entities } = normalize<{ characters: { [id: string]: Character }}, any>(action.payload, characterSchema);
 
         return {
-            ...state,
-            entities: {
-                ...state.entities,
-                ...entities.characters,
-            },
+            entities: _.merge({}, state.entities, entities.characters),
             loaded: true,
             loading: false,
         };
