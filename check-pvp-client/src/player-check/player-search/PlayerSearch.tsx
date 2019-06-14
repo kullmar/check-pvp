@@ -6,6 +6,7 @@ import { Flex } from '../../common/styled-components';
 import Select from 'react-select';
 import { ValueType } from 'react-select/lib/types';
 import { Character } from '../../../../check-pvp-common/models';
+import Downshift from 'downshift';
 
 const SearchText = styled.label`
     color: white;
@@ -54,6 +55,31 @@ const PlayerSearch: React.FunctionComponent<Props> = (props: any) => {
     return (
         <Flex alignCenter backgroundColor="#201E21" height="70px" width="100%">
             <SearchText htmlFor="searchInput">Search player</SearchText>
+            <Downshift
+                onChange={selection => console.log(selection)}
+            >
+                    {({
+                    getInputProps,
+                    getItemProps,
+                    getLabelProps,
+                    getMenuProps,
+                    isOpen,
+                    inputValue,
+                    highlightedIndex,
+                    selectedItem,
+                    }) => (
+                        <div>
+                                                   <input {...getInputProps()} />
+                        <ul {...getMenuProps()}>
+                            { isOpen ? 
+                                characters.map(char => <li {...getItemProps({item: char})}>char</li> ) : null
+                            }
+                        </ul>
+                        </div>
+                    )}
+                
+            </Downshift>
+
             <Search
                 id="searchInput"
                 backspaceRemovesValue={false}
