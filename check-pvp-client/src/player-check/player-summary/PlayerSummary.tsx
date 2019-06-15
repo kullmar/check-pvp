@@ -5,6 +5,7 @@ import { getImageUrlPrefix } from '../../common/util';
 import SummaryHeader from './components/SummaryHeader';
 import CurrentRating from './components/CurrentRating';
 import HighestRating from './components/HighestRating';
+import { Achievements } from './components/Achievements';
 
 interface ContainerProps {
     backgroundUrl?: string;
@@ -41,6 +42,7 @@ export const PlayerSummary: React.FunctionComponent<Props> = ({ character }) => 
             <SummaryHeader character={character} />
             <CurrentRating stats={character.pvpStats} />
             <HighestRating character={character} />
+            <Achievements achievements={character.pvpStats.achievements} />
         </Container>
     );
 };

@@ -59,7 +59,7 @@ interface Props {
 
 export const CurrentRating: React.FunctionComponent<Props> = ({ stats }) => {
     return (
-        <Flex justifyBetween alignCenter margin="20px 0">
+        <Flex justifyBetween alignCenter margin="20px 0 0 0">
             <RatingContainer>
                 <RatingText>{stats.v2.currentRating}</RatingText>
                 <Tooltip>
