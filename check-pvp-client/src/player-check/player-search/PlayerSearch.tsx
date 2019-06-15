@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { searchCharacter, selectPlayerSearchSuggestions, selectPlayerSearchLoading, selectAllCharacterEntities } from '../store';
+import {
+    searchCharacter,
+    selectPlayerSearchSuggestions,
+    selectPlayerSearchLoading,
+    selectAllCharacterEntities,
+} from '../store';
 import { Flex } from '../../common/styled-components';
-import Select from 'react-select';
-import { ValueType } from 'react-select/lib/types';
 import { Character } from '../../../../check-pvp-common/models';
 import Downshift from 'downshift';
-import _ from 'lodash';
 import { useDebounce } from '../../common/util';
 
 const SearchText = styled.label`
     color: white;
     margin: 0 20px;
+`;
+
+const InputContainer = styled.div`
+    margin-left: auto;
+    position: relative;
 `;
 
 const Input = styled.input`
@@ -25,7 +32,6 @@ const Input = styled.input`
     padding: 8px 10px;
     width: 220px;
     line-height: 15px;
-    position: relative;
 `;
 
 const Dropdown = styled.ul`
@@ -35,9 +41,25 @@ const Dropdown = styled.ul`
     font-family: 'Poppins', 'Questrial', 'Century Gothic';
     font-size: 13px;
     font-weight: 700;
-    width: 220px;
+    width: 100%;
     position: absolute;
-`
+    list-style: none;
+    margin: 0;
+    padding: 0;
+`;
+
+const DropdownItem = styled.li`
+    padding: 3px 0px 3px 12px;
+    text-align: left;
+    border: 0;
+    z-index: 1;
+    width: 222px;
+    color: #dcdcdc;
+    cursor: Pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+`;
 
 const SearchButton = styled.button`
     background-color: #676af7;
@@ -59,60 +81,82 @@ const PlayerSearch: React.FunctionComponent<Props> = (props: any) => {
     const searchLoading = selectPlayerSearchLoading(props.state);
     const searchAction = props[searchCharacter.type];
     const allCharacters = selectAllCharacterEntities(props.state);
-    const characters: Character[] = searchSuggestionIds[input] ? searchSuggestionIds[input].map(id => allCharacters[id]) : [];
+    const characters: Character[] = searchSuggestionIds[input]
+        ? searchSuggestionIds[input].map(id => allCharacters[id])
+        : [];
 
     useEffect(() => {
-        if (debouncedInput && !searchSuggestionIds[debouncedInput.toLowerCase()] && !searchLoading) {
+        if (
+            debouncedInput &&
+            !searchSuggestionIds[debouncedInput.toLowerCase()] &&
+            !searchLoading
+        ) {
             searchAction(debouncedInput);
         }
     }, [debouncedInput, searchAction, searchSuggestionIds, searchLoading]);
 
-    const handleSelect = (selectedOption: ValueType<string>) => {
-        console.log(selectedOption as string);
-        setInput(selectedOption as string);
-    }
+    const handleSelect = (selectedOption: Character) => {
+        setInput(
+            `${selectedOption.name}-${selectedOption.realm}-${
+                selectedOption.region
+            }`
+        );
+    };
 
     return (
-        <Flex alignCenter backgroundColor="#201E21" height="70px" width="100%">
-            <SearchText htmlFor="searchInput">Search player</SearchText>
-            <Downshift
-                onChange={selection => console.log(selection)}
-                onInputValueChange={val => setInput(val.trim())}
-                inputValue={input}
-            >
-                    {({
-                    getInputProps,
-                    getItemProps,
-                    getLabelProps,
-                    getMenuProps,
-                    isOpen,
-                    inputValue,
-                    highlightedIndex,
-                    selectedItem,
-                    }) => (
-                        <div>
-                            <Input {...getInputProps()} />
-                            <Dropdown {...getMenuProps()}>
-                                { isOpen ? 
-                                    characters.map(char => <li {...getItemProps({item: char, key: char.name})}>{char.name}</li> ) : null
-                                }
-                            </Dropdown>
-                        </div>
-                    )}
-                
-            </Downshift>
+        <Downshift
+            onChange={handleSelect}
+            onInputValueChange={val => setInput(val.trim())}
+            inputValue={input}
+        >
+            {({
+                getInputProps,
+                getItemProps,
+                getLabelProps,
+                getMenuProps,
+                getRootProps,
+                isOpen,
+                highlightedIndex,
+            }) => (
+                <Flex
+                    {...getRootProps()}
+                    alignCenter
+                    backgroundColor="#201E21"
+                    height="70px"
+                    width="100%"
+                >
+                    <SearchText {...getLabelProps()}>Search player</SearchText>
+                    <InputContainer>
+                        <Input {...getInputProps()} />
+                        <Dropdown {...getMenuProps()}>
+                            {isOpen
+                                ? characters.map((char, index) => (
+                                      <li
+                                          {...getItemProps({
+                                              item: char,
+                                              key: char.name,
+                                          })}
+                                      >
+                                          {char.name}
+                                      </li>
+                                  ))
+                                : null}
+                        </Dropdown>
+                    </InputContainer>
 
-            <SearchButton
-                type="submit"
-                onClick={() => {
-                    if (!!input && validateInput(input)) {
-                        props.onSearch(input);
-                    }
-                }}
-            >
-                Search
-            </SearchButton>
-        </Flex>
+                    <SearchButton
+                        type="submit"
+                        onClick={() => {
+                            if (!!input && validateInput(input)) {
+                                props.onSearch(input);
+                            }
+                        }}
+                    >
+                        Search
+                    </SearchButton>
+                </Flex>
+            )}
+        </Downshift>
     );
 };
 

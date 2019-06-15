@@ -3,7 +3,6 @@ import { normalize, schema } from 'normalizr';
 import { Character } from '../../../../../check-pvp-common/models';
 import * as fromActions from '../actions';
 import _ from 'lodash';
-import { any } from 'prop-types';
 
 export const name = 'playerCheck';
 
