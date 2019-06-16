@@ -8,8 +8,9 @@ export interface ArenaStats {
 }
 
 export interface Achievement {
-    id: string;
+    id: number;
     name: string;
+    timestamp: number;
 }
 
 export interface PvpStats {
@@ -19,7 +20,6 @@ export interface PvpStats {
 }
 
 export interface Character {
-    id?: string;
     avatarUri: string;
     class: number;
     faction: number;
@@ -30,6 +30,7 @@ export interface Character {
     achievementPoints: number;
     pvpStats: PvpStats;
     uniqueChecks?: number;
+    alts?: Character[];
 }
 
 export interface SearchHistory {

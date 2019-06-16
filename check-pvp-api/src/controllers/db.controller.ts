@@ -12,13 +12,13 @@ export function getCachedCharacter(
     next: express.NextFunction
 ) {
     const { name, realm, region } = req.query;
-    CharacterModel.findOne(
-        {
-            name: { $regex: new RegExp(name, 'i') },
-            realm: { $regex: new RegExp(realm, 'i') },
-            region: { $regex: new RegExp(region, 'i') },
-        },
-        (err, character) => {
+    CharacterModel.findOne({
+        name: { $regex: new RegExp(name, 'i') },
+        realm: { $regex: new RegExp(realm, 'i') },
+        region: { $regex: new RegExp(region, 'i') },
+    })
+        .populate('alts')
+        .exec((err, character) => {
             if (err) {
                 console.error(err);
                 res.status(500).send(err);
@@ -44,8 +44,7 @@ export function getCachedCharacter(
             });
 
             next();
-        }
-    );
+        });
 }
 
 export function searchCharacter(
@@ -53,17 +52,19 @@ export function searchCharacter(
     res: express.Response,
     next: express.NextFunction
 ) {
-    CharacterModel.find({ name: { $regex: new RegExp(req.body.query, 'i')}})
+    CharacterModel.find({ name: { $regex: new RegExp(req.body.query, 'i') } })
         .limit(10)
         .then(docs => {
-            res.send(docs.map(doc => {
-                const char = doc.toObject();
+            res.send(
+                docs.map(doc => {
+                    const char = doc.toObject();
 
-                return {
-                    name: char.name,
-                    realm: char.realm,
-                    region: char.region
-                }
-            }));
+                    return {
+                        name: char.name,
+                        realm: char.realm,
+                        region: char.region,
+                    };
+                })
+            );
         });
 }

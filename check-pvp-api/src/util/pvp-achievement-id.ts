@@ -1,4 +1,4 @@
-export enum AchievementId {
+export enum PvpAchievementId {
     // 3v3
     V3_2700 = 5267,
     V3_2400 = 5266,
@@ -16,3 +16,5 @@ export enum AchievementId {
     // other
     GLADIATOR = 2091
 }
+
+export const ALL_PVP_ACHIEVEMENT_IDS: number[] = Object.values(PvpAchievementId).filter(v => typeof v === 'number');

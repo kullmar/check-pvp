@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 const arenaSchema = {
     currentRating: Number,
     maxRating: Number,
     wins: Number,
     losses: Number
-}
+};
 
 export const characterSchema = new mongoose.Schema({
     avatarUri: String,
@@ -15,15 +15,24 @@ export const characterSchema = new mongoose.Schema({
     realm: String,
     region: {
         type: String,
-        enum: ['eu', 'us', 'cn']
+        enum: ['eu', 'us']
     },
     guild: String,
     achievementPoints: Number,
     pvpStats: {
+        achievements: [{
+            id: String,
+            name: String,
+            timestamp: Number
+        }],
         v2: arenaSchema,
         v3: arenaSchema
     },
-    checkerSessionIds: [String]
+    checkerSessionIds: [String],
+    alts: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Character'
+    }]
 }, {
     timestamps: true
 });

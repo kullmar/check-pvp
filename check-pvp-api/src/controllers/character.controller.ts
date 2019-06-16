@@ -1,8 +1,9 @@
 import express from 'express';
 import { BlizzardApi } from 'services';
 import _ from 'lodash';
-import { Character, PvpStats } from 'check-pvp-common/models';
+import { Character, PvpStats, Achievement } from 'check-pvp-common/models';
 import { config } from 'config';
+import { ALL_PVP_ACHIEVEMENT_IDS } from 'util/pvp-achievement-id';
 
 const { BNET_ID, BNET_SECRET } = config;
 
@@ -32,7 +33,10 @@ class CharacterController {
                     region: 'eu',
                     guild: data.guild ? data.guild.name : '',
                     achievementPoints: data.achievementPoints,
-                    pvpStats: this.getPvpStats(data),
+                    pvpStats: {
+                        achievements: this.getPvpAchievements(data.achievements),
+                        ...this.getPvpStats(data),
+                    }
                 };
 
                 console.log(
@@ -80,6 +84,7 @@ class CharacterController {
                 statistic.name === 'Highest 3 man personal rating'
         ).quantity;
 
+
         return {
             v2: {
                 currentRating: bracket2v2.cr,
@@ -94,6 +99,21 @@ class CharacterController {
                 wins: bracket3v3.wins,
             },
         };
+    }
+
+    private getPvpAchievements(data: { achievementsCompleted: number[], achievementsCompletedTimestamp: number[] }): Achievement[] {
+        const pvpAchiIndices: number[] = [];
+        data.achievementsCompleted.forEach((id, index) => {
+            if (ALL_PVP_ACHIEVEMENT_IDS.includes(id)) {
+                pvpAchiIndices.push(index);
+            }
+        });
+        
+        return pvpAchiIndices.map(index => ({
+            id: data.achievementsCompleted[index],
+            name: '',
+            timestamp: data.achievementsCompletedTimestamp[index]
+        }));
     }
 }
 

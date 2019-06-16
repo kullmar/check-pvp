@@ -25,5 +25,24 @@ export function saveCharacter(
         { upsert: true, runValidators: true }
     ).exec();
 
-    next();
+    updateAlts(character).then(
+        () => next()
+    );
+}
+
+export async function updateAlts(character: Character) {
+    const { name, realm, region } = character;
+    const doc = await CharacterModel.findOne({ name, realm, region });
+    const docs = await CharacterModel.find({ _id: { $ne: doc.id } });
+    const alts = docs.filter(d => {
+        if (doc.get('achievementPoints') !== d.get('achievementPoints')) {
+            return false;
+        }
+        return true;
+    });
+    console.log('Updating alts: ', alts);
+    
+    await doc.update({
+        $addToSet: { alts: alts.map(alt => alt.id) }
+    });
 }

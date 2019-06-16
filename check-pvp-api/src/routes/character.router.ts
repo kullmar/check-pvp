@@ -6,11 +6,12 @@ import { validateCharacterQuery } from 'middleware/character-validator.middlewar
 
 const router = Router();
 
+router.use('/raw', validateCharacterQuery);
+router.get('/raw', controller.getCharacterRaw);
+
 router.use('/', validateCharacterQuery);
 router.get('/', controller.getCharacter);
 router.use('/', saveCharacter);
 router.use('/', addToRecentChecks);
-
-router.get('/:id/raw', controller.getCharacterRaw);
 
 export default router;

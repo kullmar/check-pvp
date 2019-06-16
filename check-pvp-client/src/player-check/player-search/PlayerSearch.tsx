@@ -96,11 +96,7 @@ const PlayerSearch: React.FunctionComponent<Props> = (props: any) => {
     }, [debouncedInput, searchAction, searchSuggestionIds, searchLoading]);
 
     const handleSelect = (selectedOption: Character) => {
-        setInput(
-            `${selectedOption.name}-${selectedOption.realm}-${
-                selectedOption.region
-            }`
-        );
+        props.onSearch(input);
     };
 
     return (
@@ -108,6 +104,7 @@ const PlayerSearch: React.FunctionComponent<Props> = (props: any) => {
             onChange={handleSelect}
             onInputValueChange={val => setInput(val.trim())}
             inputValue={input}
+            itemToString={(val) => `${val.name}-${val.realm}`}
         >
             {({
                 getInputProps,
