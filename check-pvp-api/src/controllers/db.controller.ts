@@ -1,5 +1,5 @@
 import express = require('express');
-import { CharacterModel } from 'models';
+import { CharacterModel, CharacterSchema } from 'models';
 import { Character } from 'check-pvp-common/models';
 
 interface Request extends express.Request {
@@ -18,7 +18,7 @@ export function getCachedCharacter(
         region: { $regex: new RegExp(region, 'i') },
     })
         .populate('alts')
-        .exec((err, character) => {
+        .exec((err, character: CharacterSchema) => {
             if (err) {
                 console.error(err);
                 res.status(500).send(err);
@@ -35,12 +35,27 @@ export function getCachedCharacter(
                     charObj.realm
                 }`
             );
-
             req.character = charObj;
-            const { checkerSessionIds, ...rest } = charObj;
+            console.log(charObj)
+
             res.send({
-                ...rest,
-                uniqueChecks: checkerSessionIds.length,
+                avatarUri: charObj.avatarUri,
+                name: charObj.name,
+                class: charObj.class,
+                faction: charObj.faction,
+                realm: charObj.realm,
+                region: charObj.region,
+                guild: charObj.guild,
+                achievementPoints: charObj.achievementPoints,
+                pvpStats: charObj.pvpStats,
+                uniqueChecks: charObj.checkerSessionIds.length,
+                alts: character.get('alts').map((alt: CharacterSchema) => ({
+                    maxCr: alt.getHighestCr(),
+                    maxXp: alt.getHighestXp(),
+                    name: alt.get('name'),
+                    realm: alt.get('realm'),
+                    region: alt.get('region')
+                }))
             });
 
             next();

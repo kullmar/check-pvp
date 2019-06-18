@@ -19,6 +19,14 @@ export interface PvpStats {
     v3: ArenaStats;
 }
 
+export interface Alt {
+    maxCr: number;
+    maxXp: number;
+    name: string;
+    realm: string;
+    region: string;
+}
+
 export interface Character {
     avatarUri: string;
     class: number;
@@ -30,7 +38,7 @@ export interface Character {
     achievementPoints: number;
     pvpStats: PvpStats;
     uniqueChecks?: number;
-    alts?: Character[];
+    alts?: Alt[];
 }
 
 export interface SearchHistory {
