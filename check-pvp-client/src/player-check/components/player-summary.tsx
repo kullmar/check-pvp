@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Character } from '../../../../check-pvp-common/models';
 import { getImageUrlPrefix } from '../../common/util';
-import SummaryHeader from './components/SummaryHeader';
-import CurrentRating from './components/CurrentRating';
-import HighestRating from './components/HighestRating';
-import { Achievements } from './components/Achievements';
+import { CurrentRating } from './current-rating';
+import { HighestRating } from './highest-rating';
+import { Achievements } from './achievements';
+import { SummaryHeader } from './summary-header';
 
 interface ContainerProps {
     backgroundUrl?: string;

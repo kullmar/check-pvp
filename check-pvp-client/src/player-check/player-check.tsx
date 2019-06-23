@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import qs from 'query-string';
 import { Flex } from '../common/styled-components';
-import PlayerSearch from './player-search/PlayerSearch';
-import RecentCheck from './recent-check/RecentCheck';
-import PlayerSummary from './player-summary/PlayerSummary';
-import * as fromFeature from './store';
+import PlayerSearch from '../player-search/player-search';
+import RecentCheck from './components/recent-check';
+import PlayerSummary from './components/player-summary';
 import { isEqualIgnoringCase, getNameAndRealm } from '../util';
+import { fetchCharacter } from './actions';
+import { selectAllCharacterEntities, selectAllCharacterIds } from '../entities/reducer';
 
 const Col = styled.div`
     flex: 1;
@@ -20,9 +21,9 @@ const Col = styled.div`
 
 const PlayerCheck: React.FunctionComponent<{}> = (props: any) => {
     const { name, realm, region } = qs.parse(props.location.search);
-    const characters = fromFeature.selectAllCharacterEntities(props.state);
-    const characterIds = fromFeature.selectAllCharacterIds(props.state);
-    const searchAction = props[fromFeature.fetchCharacter.type];
+    const characters = selectAllCharacterEntities(props.state);
+    const characterIds = selectAllCharacterIds(props.state);
+    const searchAction = props[fetchCharacter.type];
     const existingStoreCharacterId = characterIds.find(id => 
         isEqualIgnoringCase(id, `${name}-${realm}-${region}`)
     );
@@ -65,7 +66,7 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-    [fromFeature.fetchCharacter.type]: fromFeature.fetchCharacter,
+    [fetchCharacter.type]: fetchCharacter,
 };
 
 export default connect(

@@ -1,5 +1,5 @@
 import axios, { AxiosPromise } from 'axios';
-import { Character, Region } from '../../../../check-pvp-common/models';
+import { Character, Region } from '../../../check-pvp-common/models';
 
 const baseUrl = '/api';
 

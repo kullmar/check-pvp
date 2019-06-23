@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import {
-    searchCharacter,
-    selectPlayerSearchSuggestions,
-    selectPlayerSearchLoading,
-    selectAllCharacterEntities,
-} from '../store';
-import { Flex } from '../../common/styled-components';
-import { Character } from '../../../../check-pvp-common/models';
+import { Flex } from '../common/styled-components';
+import { Character } from '../../../check-pvp-common/models';
 import Downshift from 'downshift';
-import { useDebounce } from '../../common/util';
+import { useDebounce } from '../common/util';
+import { selectPlayerSearchSuggestions, selectPlayerSearchLoading } from './reducer';
+import { searchCharacter } from './actions';
+import { selectAllCharacterEntities } from '../entities/reducer';
 
 const SearchText = styled.label`
     color: white;

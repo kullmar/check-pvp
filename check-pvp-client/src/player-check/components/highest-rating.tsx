@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Character } from '../../../../../check-pvp-common/models';
-import { Heading } from './Heading';
+import { Character } from '../../../../check-pvp-common/models';
+import { Heading } from './summary-heading';
 
 const Text = styled.div`
     padding: 5px 10px 5px 20px;

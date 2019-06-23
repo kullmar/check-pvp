@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Flex } from '../../../common/styled-components';
+import { Flex } from '../../common/styled-components';
 import {
     PvpStats
-} from '../../../../../check-pvp-common/models';
+} from '../../../../check-pvp-common/models';
 
 const RatingText = styled.div`
     color: #12d9b8;

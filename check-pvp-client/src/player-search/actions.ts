@@ -13,4 +13,4 @@ export interface Suggestions {
 
 export const searchCharacter = createAction<string>('[Player Search] Search Character');
 export const searchCharacterFail = createAction<any>('[Player Search] Search Character Fail');
-export const searchCharacterSuccess = createAction<Suggestions>('[Player Search] Search Character Success');
+export const searchCharacterSuccess = createAction('[Player Search] Search Character Success');

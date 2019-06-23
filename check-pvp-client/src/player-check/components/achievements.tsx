@@ -1,7 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Achievement } from '../../../../../check-pvp-common/models';
-import { Heading } from './Heading';
+import { Achievement } from '../../../../check-pvp-common/models';
+import { Heading } from './summary-heading';
 
 interface Props {
     achievements?: Achievement[]

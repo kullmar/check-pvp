@@ -1,5 +1,6 @@
 import { createAction } from "redux-starter-kit";
-import { Region, Character } from "../../../../../check-pvp-common/models";
+import { Character, Region } from "../../../check-pvp-common/models";
+import { NormalizedSchema } from "normalizr";
 
 export interface FetchCharacterPayload {
     name: string;
@@ -9,4 +10,4 @@ export interface FetchCharacterPayload {
 
 export const fetchCharacter = createAction<FetchCharacterPayload>('[Player Check] Fetch Character');
 export const fetchCharacterFail = createAction<any>('[Player Check] Fetch Character Fail');
-export const fetchCharacterSuccess = createAction<Character>('[Player Check] Fetch Character Success');
+export const fetchCharacterSuccess = createAction<NormalizedSchema<Character, string[]>>('[Player Check] Fetch Character Success');

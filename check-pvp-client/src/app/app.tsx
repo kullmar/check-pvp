@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import NavBar from './navbar/NavBar';
-import PlayerCheck from './player-check/PlayerCheck';
+import NavBar from '../navbar/navbar';
+import PlayerCheck from '../player-check/player-check';
 import { BrowserRouter, Route } from "react-router-dom";
 import { connect } from 'react-redux';
 
