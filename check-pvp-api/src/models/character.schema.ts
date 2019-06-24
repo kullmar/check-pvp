@@ -22,7 +22,7 @@ export const characterSchema = new mongoose.Schema({
     achievementPoints: Number,
     pvpStats: {
         achievements: [{
-            id: String,
+            id: Number,
             name: String,
             timestamp: Number
         }],

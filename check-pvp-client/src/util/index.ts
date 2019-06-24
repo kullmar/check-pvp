@@ -1,2 +1,2 @@
 export * from './string-util';
-export * from './character-id-util';
+export * from './character-util';

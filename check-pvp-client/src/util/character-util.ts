@@ -1,3 +1,5 @@
+import { Region } from "../../../check-pvp-common/models";
+
 export function getNameAndRealm(
     raw: string
 ): { name: string; realm: string } {
@@ -14,3 +16,6 @@ export function getNameAndRealm(
         realm,
     };
 }
+
+export const getImageUrlPrefix = (region: Region) =>
+    `https://render-${region}.worldofwarcraft.com/character/`;

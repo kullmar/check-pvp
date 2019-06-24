@@ -1,5 +1,5 @@
 import { normalize } from 'normalizr';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { PayloadAction } from 'redux-starter-kit';
 import { FetchCharacterPayload, loadCharacterFail, loadCharacterSuccess } from '.';
 import Api from '../api';
@@ -41,5 +41,6 @@ export function* fetchDbCharacter(
 }
 
 export function* saga() {
-    yield takeLatest(loadCharacterRequest.type, fetchCharacter);
+    yield takeEvery(loadCharacterRequest.type, fetchDbCharacter);
+    yield takeEvery(loadCharacterRequest.type, fetchCharacter);
 }
