@@ -1,33 +1,29 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
 import qs from 'query-string';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { Flex } from '../common/styled-components';
+import { selectSelectedCharacter } from '../entities/reducer';
 import PlayerSearch from '../player-search/player-search';
-import RecentCheck from './components/recent-check';
+import { getNameAndRealm } from '../util';
+import { loadCharacterRequest } from './actions';
 import PlayerSummary from './components/player-summary';
-import { isEqualIgnoringCase, getNameAndRealm } from '../util';
-import { fetchCharacter } from './actions';
-import { selectAllCharacterEntities, selectAllCharacterIds } from '../entities/reducer';
+import RecentCheck from './components/recent-check';
 
 const Col = styled.div`
     flex: 1;
     min-width: 550px;
 
     & + & {
-      margin-left: 20px;
+        margin-left: 20px;
     }
 `;
 
-const PlayerCheck: React.FunctionComponent<{}> = (props: any) => {
+const PlayerCheck: React.FunctionComponent<{}> = (props: any) => {    
     const { name, realm, region } = qs.parse(props.location.search);
-    const characters = selectAllCharacterEntities(props.state);
-    const characterIds = selectAllCharacterIds(props.state);
-    const searchAction = props[fetchCharacter.type];
-    const existingStoreCharacterId = characterIds.find(id => 
-        isEqualIgnoringCase(id, `${name}-${realm}-${region}`)
-    );
-    const isCharacterLoaded = existingStoreCharacterId ? characters[existingStoreCharacterId].avatarUri : false;
+    const character = selectSelectedCharacter(props.state, props);
+    const searchAction = props[loadCharacterRequest.type];
+    const isCharacterLoaded = character && character.avatarUri;    
 
     const handleSearch = (id: string) => {
         const { name, realm } = getNameAndRealm(id);
@@ -44,13 +40,7 @@ const PlayerCheck: React.FunctionComponent<{}> = (props: any) => {
         <Flex justifyBetween margin="30px 10%">
             <Col>
                 <PlayerSearch onSearch={id => handleSearch(id)} />
-                <PlayerSummary
-                    character={
-                        characters && isCharacterLoaded && existingStoreCharacterId
-                            ? characters[existingStoreCharacterId]
-                            : undefined
-                    }
-                />
+                <PlayerSummary character={character} />
             </Col>
             <Col>
                 <RecentCheck />
@@ -66,7 +56,7 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-    [fetchCharacter.type]: fetchCharacter,
+    [loadCharacterRequest.type]: loadCharacterRequest,
 };
 
 export default connect(

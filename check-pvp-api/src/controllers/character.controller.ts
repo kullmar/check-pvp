@@ -30,7 +30,7 @@ class CharacterController {
                     faction: data.faction,
                     name: data.name,
                     realm: data.realm,
-                    region: 'eu',
+                    region,
                     guild: data.guild ? data.guild.name : '',
                     achievementPoints: data.achievementPoints,
                     pvpStats: {

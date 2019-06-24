@@ -8,6 +8,6 @@ export interface FetchCharacterPayload {
     region: Region;
 }
 
-export const fetchCharacter = createAction<FetchCharacterPayload>('[Player Check] Fetch Character');
-export const fetchCharacterFail = createAction<any>('[Player Check] Fetch Character Fail');
-export const fetchCharacterSuccess = createAction<NormalizedSchema<Character, string[]>>('[Player Check] Fetch Character Success');
+export const loadCharacterRequest = createAction<FetchCharacterPayload>('[Player Check] Load Character Request');
+export const loadCharacterFail = createAction<any>('[Player Check] Load Character Fail');
+export const loadCharacterSuccess = createAction<NormalizedSchema<Character, string[]>>('[Player Check] Load Character Success');

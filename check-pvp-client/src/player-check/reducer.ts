@@ -1,33 +1,26 @@
 import { createReducer, createSelector } from 'redux-starter-kit';
-import { fetchCharacter, fetchCharacterSuccess } from './actions';
+import { loadCharacterFail, loadCharacterSuccess } from './actions';
 
 export const STATE_NAME = 'playerCheck';
 
 export interface State {
-    loaded: boolean;
-    loading: boolean;
+    isFetching: boolean;
 }
 
 export const initialState: State = {
-    loaded: false,
-    loading: false
+    isFetching: false
 };
 
 export const reducer = createReducer(initialState, {
-    [fetchCharacter.type]: () => {
+    [loadCharacterFail.type]: () => {
         return {
-            loaded: false,
-            loading: true,
+            isFetching: true
         };
     },
-    [fetchCharacterSuccess.type]: () => {
-        return {
-            loaded: true,
-            loading: false,
-        };
+    [loadCharacterSuccess.type]: () => {
+        return initialState;
     }
 });
 
-export const selectCharacterLoaded = createSelector(['playerCheck.loaded']);
-
-export const selectCharacterLoading = createSelector(['playerCheck.loading']);
+export const selectPlayerCheckState = createSelector([STATE_NAME]);
+export const selectPlayerCheckIsFetching = createSelector([selectPlayerCheckState], (state) => state.isFetching);

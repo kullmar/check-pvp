@@ -1,6 +1,7 @@
 import { Character } from '../../../check-pvp-common/models';
 import _ from 'lodash';
 import createSelector from 'selectorator';
+import qs from 'query-string';
 
 export const STATE_NAME = 'entities';
 
@@ -42,3 +43,15 @@ export const selectAllCharacters = createSelector(
     [selectAllCharacterEntities],
     entities => Object.values(entities)
 );
+
+export const selectSelectedCharacter = createSelector([
+    { path: 'location.search', argIndex: 1 }, selectAllCharacterEntities
+], (searchParams: any, entities: any) => {    
+    const { name, realm, region } = qs.parse(searchParams);
+    if (!name || !realm || !region) {
+        return undefined;
+    }
+    const id = `${name}-${realm}-${region}`.toLowerCase();
+
+    return entities[id];
+});

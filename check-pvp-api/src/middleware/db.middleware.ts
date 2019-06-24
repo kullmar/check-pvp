@@ -23,11 +23,9 @@ export function saveCharacter(
             $addToSet: { checkerSessionIds: req.sessionID }
         },
         { upsert: true, runValidators: true }
-    ).exec();
+    ).exec().then(() => updateAlts(character));
 
-    updateAlts(character).then(
-        () => next()
-    );
+    next();
 }
 
 export async function updateAlts(character: Character) {
@@ -40,9 +38,10 @@ export async function updateAlts(character: Character) {
         }
         return true;
     });
-    console.log('Updating alts: ', alts);
-    
-    await doc.update({
-        $addToSet: { alts: alts.map(alt => alt.id) }
-    });
+
+    if (alts.length > 0) {
+        await doc.updateOne({
+            $addToSet: { alts: alts.map(alt => alt.id) }
+        });
+    }
 }

@@ -3,9 +3,10 @@ import Api from '../api';
 import { PayloadAction } from 'redux-starter-kit';
 import { normalize } from 'normalizr';
 import { characterSchema } from '../models/schemas';
-import { FetchCharacterPayload, fetchCharacterSuccess, fetchCharacterFail, fetchCharacter } from './actions';
+import { FetchCharacterPayload, loadCharacterSuccess, loadCharacterFail } from '.';
+import { loadCharacterRequest } from './actions';
 
-export function* fetchCharacterRequest(
+export function* fetchCharacter(
     action: PayloadAction<FetchCharacterPayload>
 ) {
     try {
@@ -16,9 +17,9 @@ export function* fetchCharacterRequest(
             action.payload.region
         );
         const normalized = normalize(response.data, characterSchema);
-        yield put(fetchCharacterSuccess(normalized));
+        yield put(loadCharacterSuccess(normalized));
     } catch (err) {
-        yield put(fetchCharacterFail(err));
+        yield put(loadCharacterFail(err));
     }
 }
 
@@ -26,21 +27,19 @@ export function* fetchDbCharacter(
     action: PayloadAction<FetchCharacterPayload>
 ) {
     try {
-        const character = yield call(
+        const response = yield call(
             Api.getDbCharacter,
             action.payload.name,
             action.payload.realm,
             action.payload.region
         );
-        yield put(fetchCharacterSuccess(character.data));
+        const normalized = normalize(response.data, characterSchema);
+        yield put(loadCharacterSuccess(normalized));
     } catch (err) {
-        yield put(fetchCharacterFail(err));
+        yield put(loadCharacterFail(err));
     }
 }
 
 export function* saga() {
-    yield all([
-        yield takeLatest(fetchCharacter.type, fetchDbCharacter),
-        yield takeLatest(fetchCharacter.type, fetchCharacter),
-    ]);
+    yield takeLatest(loadCharacterRequest.type, fetchCharacter);
 }
