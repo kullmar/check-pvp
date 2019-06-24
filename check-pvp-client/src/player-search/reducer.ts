@@ -1,5 +1,5 @@
 import { createReducer, createSelector } from "redux-starter-kit";
-import { searchCharacter, searchCharacterSuccess, searchCharacterFail, PlayerSearchSuggestion } from "./actions";
+import { searchCharacter, searchCharacterFail, searchCharacterSuccess } from "./actions";
 
 export const STATE_NAME = 'playerSearch';
 
@@ -28,8 +28,9 @@ export const reducer = createReducer(initialState, {
 
     [searchCharacterSuccess.type]: (state, action) => {
         const newSuggestions = { ...state.searchSuggestions };
-        const charIds = action.payload.characters.map((char: PlayerSearchSuggestion) => `${char.name}-${char.realm}-${char.region}`)
+        const charIds = action.payload.result;
         newSuggestions[action.payload.searchTerm.toLowerCase()] = charIds;
+        debugger
 
         return {
             loaded: true,

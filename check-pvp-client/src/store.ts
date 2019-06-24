@@ -1,6 +1,6 @@
-import { configureStore } from "redux-starter-kit";
 import createSagaMiddleware from 'redux-saga';
-import { all, fork } from "redux-saga/effects";
+import { all } from "redux-saga/effects";
+import { configureStore } from "redux-starter-kit";
 import * as fromEntities from './entities/reducer';
 import * as fromCheck from './player-check';
 import * as fromSearch from './player-search';

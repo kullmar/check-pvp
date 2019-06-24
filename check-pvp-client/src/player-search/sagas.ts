@@ -12,8 +12,8 @@ export function* fetchCharacterAutocomplete(
     try {
         yield delay(200);
         const res = yield call(Api.searchCharacter, action.payload);
-        const normalized = normalize<Character, string[]>(res.data, characterSchema);
-        yield put(searchCharacterSuccess({ normalized, searchTerm: action.payload }));
+        const normalized = normalize<Character, string[]>(res.data, [characterSchema]);
+        yield put(searchCharacterSuccess({ ...normalized, searchTerm: action.payload }));
     } catch (err) {
         yield put(searchCharacterFail(err));
     }

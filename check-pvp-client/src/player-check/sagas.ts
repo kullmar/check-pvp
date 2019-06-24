@@ -1,9 +1,9 @@
-import { call, put, takeLatest, all } from 'redux-saga/effects';
-import Api from '../api';
-import { PayloadAction } from 'redux-starter-kit';
 import { normalize } from 'normalizr';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { PayloadAction } from 'redux-starter-kit';
+import { FetchCharacterPayload, loadCharacterFail, loadCharacterSuccess } from '.';
+import Api from '../api';
 import { characterSchema } from '../models/schemas';
-import { FetchCharacterPayload, loadCharacterSuccess, loadCharacterFail } from '.';
 import { loadCharacterRequest } from './actions';
 
 export function* fetchCharacter(

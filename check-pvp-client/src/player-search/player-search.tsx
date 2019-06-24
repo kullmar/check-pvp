@@ -1,13 +1,12 @@
+import Downshift from 'downshift';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Flex } from '../common/styled-components';
 import { Character } from '../../../check-pvp-common/models';
-import Downshift from 'downshift';
-import { useDebounce } from '../common/util';
-import { selectPlayerSearchSuggestions, selectPlayerSearchLoading } from './reducer';
-import { searchCharacter } from './actions';
+import { Flex } from '../common/styled-components';
 import { selectAllCharacterEntities } from '../entities/reducer';
+import { searchCharacter } from './actions';
+import { selectPlayerSearchSuggestions } from './reducer';
 
 const SearchText = styled.label`
     color: white;
@@ -73,9 +72,7 @@ interface Props {
 
 const PlayerSearch: React.FunctionComponent<Props> = (props: any) => {
     const [input, setInput] = useState('');
-    const debouncedInput = useDebounce(input, 200);
     const searchSuggestionIds = selectPlayerSearchSuggestions(props.state);
-    const searchLoading = selectPlayerSearchLoading(props.state);
     const searchAction = props[searchCharacter.type];
     const allCharacters = selectAllCharacterEntities(props.state);
     const characters: Character[] = searchSuggestionIds[input]
@@ -84,13 +81,12 @@ const PlayerSearch: React.FunctionComponent<Props> = (props: any) => {
 
     useEffect(() => {
         if (
-            debouncedInput &&
-            !searchSuggestionIds[debouncedInput.toLowerCase()] &&
-            !searchLoading
+            input && input.length > 1 &&
+            !searchSuggestionIds[input.toLowerCase()]
         ) {
-            searchAction(debouncedInput);
+            searchAction(input);
         }
-    }, [debouncedInput, searchAction, searchSuggestionIds, searchLoading]);
+    }, [input, searchAction, searchSuggestionIds]);
 
     const handleSelect = (selectedOption: Character) => {
         props.onSearch(input);
@@ -101,7 +97,6 @@ const PlayerSearch: React.FunctionComponent<Props> = (props: any) => {
             onChange={handleSelect}
             onInputValueChange={val => setInput(val.trim())}
             inputValue={input}
-            itemToString={(val) => `${val.name}-${val.realm}`}
         >
             {({
                 getInputProps,
@@ -125,14 +120,14 @@ const PlayerSearch: React.FunctionComponent<Props> = (props: any) => {
                         <Dropdown {...getMenuProps()}>
                             {isOpen
                                 ? characters.map((char, index) => (
-                                      <li
+                                      <DropdownItem
                                           {...getItemProps({
                                               item: char,
                                               key: char.name,
                                           })}
                                       >
                                           {char.name}
-                                      </li>
+                                      </DropdownItem>
                                   ))
                                 : null}
                         </Dropdown>
