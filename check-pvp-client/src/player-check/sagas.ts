@@ -1,5 +1,5 @@
 import { normalize } from 'normalizr';
-import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import { PayloadAction } from 'redux-starter-kit';
 import { FetchCharacterPayload, loadCharacterFail, loadCharacterSuccess } from '.';
 import Api from '../api';
@@ -10,11 +10,12 @@ export function* fetchCharacter(
     action: PayloadAction<FetchCharacterPayload>
 ) {
     try {
+        const { name, realm, region } = action.payload;
         const response = yield call(
             Api.getCharacter,
-            action.payload.name,
-            action.payload.realm,
-            action.payload.region
+            name,
+            realm,
+            region
         );
         const normalized = normalize(response.data, characterSchema);
         yield put(loadCharacterSuccess(normalized));

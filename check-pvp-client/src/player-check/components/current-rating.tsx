@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Flex } from '../../common/styled-components';
+import { Flex } from '../../ui-components';
 import {
     PvpStats
 } from '../../../../check-pvp-common/models';

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Character } from '../../../check-pvp-common/models';
-import { Flex } from '../common/styled-components';
+import { Flex } from '../ui-components';
 import { selectAllCharacterEntities } from '../entities/reducer';
 import { searchCharacter } from './actions';
 import { selectPlayerSearchSuggestions } from './reducer';

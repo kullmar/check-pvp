@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import { Flex } from '../../common/styled-components';
+import { Flex } from '../../ui-components';
 import { SearchHistory } from '../../../../check-pvp-common/models';
 import { WOW_CLASS_PROPERTIES } from '../../models/wow-class-properties';
 

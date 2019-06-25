@@ -17,5 +17,7 @@ export function getNameAndRealm(
     };
 }
 
+export const getCharacterId = (name: any, realm: any, region: any): string => `${name}-${realm}-${region}`.toLowerCase();
+
 export const getImageUrlPrefix = (region: Region) =>
     `https://render-${region}.worldofwarcraft.com/character/`;

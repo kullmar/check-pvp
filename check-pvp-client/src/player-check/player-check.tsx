@@ -2,7 +2,7 @@ import qs from 'query-string';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Flex } from '../common/styled-components';
+import { Flex } from '../ui-components';
 import { selectSelectedCharacter } from '../entities/reducer';
 import PlayerSearch from '../player-search/player-search';
 import { getNameAndRealm } from '../util';

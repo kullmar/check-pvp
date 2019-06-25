@@ -2,6 +2,7 @@ import { Character } from '../../../check-pvp-common/models';
 import _ from 'lodash';
 import createSelector from 'selectorator';
 import qs from 'query-string';
+import { getCharacterId } from '../util';
 
 export const STATE_NAME = 'entities';
 
@@ -30,7 +31,7 @@ export const entitiesSlice = createSlice({
 });
  */
 
-export const selectAllCharacterEntities = createSelector(
+export const selectAllCharacterEntities = createSelector<any, { [id: string]: Character }>(
     [`${STATE_NAME}.characters`],
 );
 
@@ -51,7 +52,6 @@ export const selectSelectedCharacter = createSelector([
     if (!name || !realm || !region) {
         return undefined;
     }
-    const id = `${name}-${realm}-${region}`.toLowerCase();
 
-    return entities[id];
+    return entities[getCharacterId(name, realm, region)];
 });

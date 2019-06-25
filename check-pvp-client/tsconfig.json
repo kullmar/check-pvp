@@ -20,6 +20,6 @@
     "jsx": "preserve"
   },
   "include": [
-    "src", "../check-pvp-common"
+    "src", "../check-pvp-common", "../check-pvp-api/pvp-achievement-id.ts"
   ]
 }
