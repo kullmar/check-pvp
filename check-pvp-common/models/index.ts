@@ -9,7 +9,6 @@ export interface ArenaStats {
 
 export interface Achievement {
     id: number;
-    name: string;
     timestamp: number;
 }
 

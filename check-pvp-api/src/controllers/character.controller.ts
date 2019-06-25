@@ -111,7 +111,6 @@ class CharacterController {
         
         return pvpAchiIndices.map(index => ({
             id: data.achievementsCompleted[index],
-            name: '',
             timestamp: data.achievementsCompletedTimestamp[index]
         }));
     }
