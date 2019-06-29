@@ -18,3 +18,4 @@ export enum PvpAchievementId {
 }
 
 export const ALL_PVP_ACHIEVEMENT_IDS: number[] = Object.values(PvpAchievementId).filter(v => typeof v === 'number');
+export const TWOS_ACHIEVEMENT_IDS = [PvpAchievementId.V2_2200, PvpAchievementId.V2_2000, PvpAchievementId.V2_1750, PvpAchievementId.V2_1550];

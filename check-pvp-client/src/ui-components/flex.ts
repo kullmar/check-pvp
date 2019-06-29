@@ -6,6 +6,7 @@ export interface FlexProps {
     width?: string;
     margin?: string;
     padding?: string;
+    position?: string;
 
     wrapReverse?: boolean;
     noWrap?: boolean;
@@ -40,6 +41,8 @@ export const Flex = styled.div<FlexProps>`
     margin: ${props => (props.margin? props.margin: '0')};
     padding: ${props => (props.padding? props.padding: '0')};
     display: flex;
+    position: ${props => (props.position ? props.position : 'static')};
+
     flex-wrap: ${props => {
         if (props.wrapReverse) return 'wrap-reverse'
         else if (props.noWrap) return 'nowrap'
