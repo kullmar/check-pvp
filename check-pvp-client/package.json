@@ -15,7 +15,7 @@
     "@types/styled-components": "^4.1.15",
     "axios": "^0.18.0",
     "downshift": "^3.2.10",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "moment": "^2.24.0",
     "normalizr": "^3.3.0",
     "query-string": "^6.6.0",
